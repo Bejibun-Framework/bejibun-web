@@ -1,10 +1,8 @@
 "use client";
 
-import React from "react";
-
 import {motion} from "framer-motion";
 import {Dot, Check} from "lucide-react";
-
+import React from "react";
 import {Timeline} from "../ui/timeline";
 
 export function Roadmap() {
@@ -195,6 +193,13 @@ export function Roadmap() {
                             <p className="text-white/90 text-sm">WebSocket</p>
                         </div>
                         <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
+                            <Check className="size-[16px]"/>
+                            <p className="text-white/90 text-sm">Unit Test</p>
+                        </div>
+                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
+                            <p className="text-white/90 text-sm">HTTP Requests</p>
+                        </div>
+                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
                             <p className="text-white/90 text-sm">Database Transaction</p>
                         </div>
                         <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-3">
@@ -253,9 +258,6 @@ export function Roadmap() {
                     <div className="grid gap-2">
                         <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
                             <p className="text-white/90 text-sm">Website Phase 2</p>
-                        </div>
-                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <p className="text-white/90 text-sm">Unit Test</p>
                         </div>
                         <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-3">
                             <div className="flex flex-col gap-1">
