@@ -1,13 +1,16 @@
-import type {MotionValue} from "framer-motion";
-import {animate, motion, useMotionValue, useTransform} from "framer-motion";
-import {Code2, Wallet, Radio, FileCode, Copy, Check} from "lucide-react";
-import {useState, useEffect} from "react";
+"use client";
 
-const Web3Sdk = [
+import {motion} from "framer-motion";
+import {ArrowUpRight} from "lucide-react";
+import {useState} from "react";
+import {CodeBlock, CopyButton} from "@/components/ui/code-block";
+
+const BJBN_CA = "CQhbNnCGKfDaKXt8uE61i5DrBYJV7NPsCDD9vQgypump";
+
+const SDK_TABS = [
     {
-        title: "Wallet Connect",
-        icon: Wallet,
-        description: "Seamlessly integrate wallet connections with minimal setup.",
+        key: "Wallet",
+        file: "@bejibun/web3 — wallet",
         code: `import {WalletService} from "@bejibun/web3";
 
 const wallet = new WalletService();
@@ -20,13 +23,11 @@ const address = await wallet.connect({
 // Sign message
 const signature = await wallet.sign(
     "Welcome to Bejibun!"
-);
-        `
+);`
     },
     {
-        title: "RPC Calls",
-        icon: Radio,
-        description: "Make RPC calls to blockchain nodes with built-in error handling.",
+        key: "RPC",
+        file: "@bejibun/web3 — rpc",
         code: `import {Rpc} from "@bejibun/web3";
 
 const rpc = new Rpc({
@@ -38,287 +39,217 @@ const rpc = new Rpc({
 const blockNumber = await rpc.call("eth_blockNumber");
 
 // Get balance
-const balance = await rpc.getBalance(address);
-        `
+const balance = await rpc.getBalance(address);`
     },
     {
-        title: "Contract Calls",
-        icon: FileCode,
-        description: "Interact with smart contracts using type-safe interfaces.",
+        key: "Contract",
+        file: "@bejibun/web3 — contract",
         code: `import {Contract} from "@bejibun/web3";
 
 const token = new Contract({
-  address: "0x...",
-  abi: ERC20_ABI
+    address: "0x...",
+    abi: ERC20_ABI
 });
 
 // Read contract
 const balance = await token.balanceOf(userAddress);
 
 // Write contract
-await token.transfer(recipientAddress, amount);
-        `
+await token.transfer(recipientAddress, amount);`
     }
 ];
 
-function BackgroundGradients() {
-    return (
-        <>
-            {/* Purple gradient blob - center left */}
-            <div
-                className="absolute bg-brand-purple/20 blur-[120px] filter left-[-100px] opacity-40 rounded-full size-[500px] top-1/2 -translate-y-1/2"
-            />
+const WEB3_CARDS = [
+    {
+        tag: "x402",
+        status: "Shipped",
+        statusClass: "text-success border-success/30",
+        title: "On-chain payments, per request",
+        detail: "HTTP-native payments via @bejibun/x402. Charge for API calls at the route level — no payment gateway, no invoices.",
+        href: "https://github.com/Bejibun-Framework/bejibun-x402"
+    },
+    {
+        tag: "@bejibun/web3",
+        status: "Coming soon",
+        statusClass: "text-warning border-warning/30",
+        title: "Wallet, RPC & contracts in one SDK",
+        detail: "Connect wallets, call nodes, and interact with smart contracts through type-safe interfaces. One import away.",
+        href: null
+    },
+    {
+        tag: "$BJBN",
+        status: "Live on Solana",
+        statusClass: "text-brand border-brand/30",
+        title: "The token behind the ecosystem",
+        detail: "Listed on CoinGecko. Token utility and CEX listing on the roadmap.",
+        href: "https://www.coingecko.com/en/coins/bejibun"
+    }
+];
 
-            {/* Pink gradient blob - center right */}
-            <div
-                className="absolute bg-brand-pink/20 blur-[120px] filter right-[-100px] opacity-40 rounded-full size-[500px] top-1/2 -translate-y-1/2"
-            />
-        </>
+// "+" corner markers — quiet structural detail
+function CornerCross({className}: { className: string }) {
+    return (
+        <span aria-hidden="true" className={`absolute font-mono text-[14px] text-elevated/40 select-none ${className}`}>
+            +
+        </span>
     );
 }
 
-function SectionHeader() {
-    return (
-        <motion.div
-            className="text-center mb-[48px] md:mb-[64px] relative z-10"
-            initial={{opacity: 0, y: 20}}
-            whileInView={{opacity: 1, y: 0}}
-            viewport={{once: true}}
-            transition={{duration: 0.6}}
-        >
-            <div className="flex items-center justify-center gap-[10px] mb-[16px] md:mb-[20px]">
-                <Code2 className="size-[20px] md:size-[24px] text-brand-purple" strokeWidth={1.5}/>
-                <p className="text-[14px] md:text-[16px] text-brand-purple tracking-[-0.2px]">
-                    Blockchain Ready
-                </p>
+function Web3Card({card, index}: { card: typeof WEB3_CARDS[number]; index: number }) {
+    const inner = (
+        <div className="group relative h-full bg-code-bg border border-code-border rounded-xl p-7 overflow-hidden transition-all duration-300 hover:border-brand/50 hover:shadow-[0_0_32px_rgba(255,108,2,0.10),0_1px_0_rgba(255,108,2,0.25)_inset]">
+            {/* top sheen */}
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-code-fg/15 to-transparent"/>
+
+            <div className="flex items-center justify-between mb-8">
+                <span className="font-mono text-[13px] text-brand">{card.tag}</span>
+                <span className={`font-mono text-[10.5px] uppercase tracking-[0.1em] border rounded-full px-2.5 py-1 ${card.statusClass}`}>
+                    {card.status}
+                </span>
             </div>
 
-            <h2 className="text-[32px] md:text-[40px] lg:text-[48px] leading-[1.2] tracking-[-0.04em] mb-[16px] md:mb-[20px]">
-                <span className="text-foreground">Built for </span>
-                <span className="text-brand-pink">Web3</span>
-            </h2>
+            <h3 className="text-[17px] font-medium text-code-fg tracking-[-0.01em] mb-2.5 flex items-start gap-1.5">
+                {card.title}
+                {card.href && (
+                    <ArrowUpRight className="size-3.5 text-code-muted shrink-0 mt-1 transition-colors group-hover:text-brand"/>
+                )}
+            </h3>
+            <p className="text-[13.5px] leading-[1.65] text-code-muted">{card.detail}</p>
+        </div>
+    );
 
-            <p className="text-[16px] md:text-[18px] lg:text-[20px] leading-[1.6] tracking-[-0.2px] text-muted-foreground max-w-[700px] mx-auto">
-                Everything you need to build blockchain-powered applications, from wallet integration to smart contract
-                interactions.
-            </p>
+    return (
+        <motion.div
+            initial={{opacity: 0, y: 16}}
+            whileInView={{opacity: 1, y: 0}}
+            viewport={{once: true}}
+            transition={{duration: 0.5, delay: index * 0.1}}
+            className="h-full"
+        >
+            {card.href ? (
+                <a href={card.href} target="_blank" rel="noreferrer" className="block h-full">
+                    {inner}
+                </a>
+            ) : inner}
         </motion.div>
     );
 }
 
-function TabButton({title, icon: Icon, isActive, onClick, progress, onHoverChange}: {
-    title: string;
-    icon: any;
-    isActive: boolean;
-    onClick: () => void;
-    progress: MotionValue<number>;
-    onHoverChange: (hovered: boolean) => void;
-}) {
-    const progressScale = useTransform(progress, [0, 100], [0, 1]);
-
-    return (
-        <button
-            onClick={onClick}
-            onMouseEnter={() => onHoverChange(true)}
-            onMouseLeave={() => onHoverChange(false)}
-            aria-label={title}
-            title={title}
-            className={`
-                flex items-center gap-[8px] md:gap-[12px] px-[16px] md:px-[24px] py-[12px] md:py-[16px] rounded-[8px] 
-                border transition-all duration-300 w-full min-[744px]:flex-1 relative overflow-hidden cursor-pointer 
-                ${
-                isActive ?
-                    "bg-gradient-to-br from-brand-purple/20 to-brand-pink/20 border-brand-purple/50 text-foreground" :
-                    "bg-card/50 border-border/30 text-muted-foreground hover:border-brand-purple/30 hover:bg-card"
-            }
-            `}
-        >
-            {isActive && (
-                <motion.div
-                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-brand-purple/50"
-                    style={{transformOrigin: "left", scaleX: progressScale}}
-                >
-                    <div className="absolute inset-0 bg-gradient-to-r from-brand-purple to-brand-pink"/>
-                </motion.div>
-            )}
-            <div className="flex justify-between w-full items-center gap-[8px] md:gap-[12px]">
-                <div className="flex justify-between items-center gap-[8px] md:gap-[12px]">
-                    <Icon className="size-[18px] md:size-[20px] relative z-10" strokeWidth={1.5}/>
-                    <span className="sm:inline text-[14px] md:text-[16px] tracking-[-0.2px] relative z-10">
-                        {title}
-                    </span>
-                </div>
-                <span
-                    className="text-[12px] md:text-[13px] px-[10px] py-[4px] rounded-full border border-white/10 bg-white/5 text-white/70"
-                >
-                    Coming Soon
-                </span>
-            </div>
-        </button>
-    );
-}
-
-function CodeExampleCard({code}: {
-    code: string;
-}) {
-    const [copied, setCopied] = useState(false);
-
-    const handleCopy = () => {
-        navigator.clipboard.writeText(code);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-    };
-
-    const copyLabel = copied ? "Copied!" : "Copy";
-
-    return (
-        <div className="bg-black/60 rounded-[8px] md:rounded-[10px] border border-white/10 overflow-hidden">
-            <div className="border-b border-white/10 px-[20px] md:px-[24px] py-[14px] md:py-[16px]">
-                <div className="flex items-center justify-between gap-[12px]">
-                    <div className="flex gap-[6px] md:gap-[8px] items-center">
-                        <div className="bg-destructive rounded-full size-[10px] md:size-[12px]"/>
-                        <div className="bg-chart-3 rounded-full size-[10px] md:size-[12px]"/>
-                        <div className="bg-chart-2 rounded-full size-[10px] md:size-[12px]"/>
-                    </div>
-                    <button
-                        onClick={handleCopy}
-                        className="inline-flex items-center justify-center gap-2 h-8 px-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-sm cursor-pointer"
-                        aria-label={copyLabel}
-                        title={copyLabel}
-                    >
-                        {copied ? (
-                            <>
-                                <Check className="w-4 h-4 text-green-400"/>
-                                <span className="hidden sm:inline text-green-400">Copied!</span>
-                            </>
-                        ) : (
-                            <>
-                                <Copy className="w-4 h-4"/>
-                                <span className="hidden sm:inline">Copy</span>
-                            </>
-                        )}
-                    </button>
-                </div>
-            </div>
-
-            <div className="p-[20px] md:p-[28px] lg:p-[32px] overflow-x-auto">
-                <pre className="text-[14px] md:text-[15px] lg:text-[16px] leading-[1.7] font-mono">
-                    <code className="text-muted-foreground whitespace-pre">
-                        {code}
-                    </code>
-                </pre>
-            </div>
-        </div>
-    );
-}
-
 export function BlockchainReadiness() {
-    const [activeTab, setActiveTab] = useState(0);
-    const [hovered, setHovered] = useState(false);
-    const progress = useMotionValue(100);
-
-    const setTab = (index: number) => {
-        setActiveTab(index);
-        progress.set(100);
-    };
-
-    // Auto-rotate tabs every 5 seconds
-    useEffect(() => {
-        if (hovered) return;
-
-        const interval = setInterval(() => {
-            setActiveTab((prev) => {
-                const next = (prev + 1) % Web3Sdk.length;
-                progress.set(100);
-                return next;
-            });
-        }, 5000);
-
-        return () => clearInterval(interval);
-    }, [hovered, progress]);
-
-    // Smooth progress animation (5s per tab)
-    useEffect(() => {
-        progress.stop();
-        progress.set(100);
-
-        if (hovered) return;
-
-        const controls = animate(progress, 0, {
-            duration: 5,
-            ease: "linear",
-        });
-
-        return () => {
-            controls.stop();
-        };
-    }, [activeTab, hovered, progress]);
-
-    const activeExample = Web3Sdk[activeTab];
+    const [active, setActive] = useState(0);
 
     return (
-        <section
-            id="blockchain"
-            className="bg-black relative w-full py-[60px] md:py-[80px] lg:py-[100px] overflow-hidden"
-        >
-            <BackgroundGradients/>
+        <section id="web3" className="relative px-3 md:px-6 py-8 md:py-12">
+            {/* Island panel — rounded dark canvas inset on the light page, so the
+                light→dark hand-off reads as a deliberate panel, not a hard cut */}
+            <div className="relative bg-night rounded-[28px] md:rounded-[40px] border border-night-border overflow-hidden py-[88px] md:py-[120px] max-w-[1400px] mx-auto shadow-[0_32px_80px_-48px_rgba(4,4,4,0.5)]">
+                {/* Accent aura — single chromatic glow, BaseHub-style */}
+                <div
+                    aria-hidden="true"
+                    className="absolute left-1/2 top-[-340px] -translate-x-1/2 size-[760px] rounded-full pointer-events-none
+                               bg-[radial-gradient(circle,rgba(255,108,2,0.16)_0%,rgba(255,108,2,0.05)_40%,transparent_68%)]"
+                />
+                {/* hairline halo ring */}
+                <div
+                    aria-hidden="true"
+                    className="absolute left-1/2 top-[-540px] -translate-x-1/2 size-[1080px] rounded-full border border-code-border/60 pointer-events-none"
+                />
 
-            <div className="max-w-[1200px] mx-auto px-4 md:px-6 relative z-10">
-                <SectionHeader/>
+                <div className="relative max-w-[1150px] mx-auto px-4 md:px-6">
+                <CornerCross className="top-[-60px] left-4 md:left-6"/>
+                <CornerCross className="top-[-60px] right-4 md:right-6"/>
 
-                <div className="flex flex-col min-[824px]:flex-row gap-[12px] md:gap-[16px] mb-[32px] md:mb-[40px]">
-                    {Web3Sdk.map((example, index) => (
-                        <motion.div
-                            key={index}
-                            initial={{opacity: 0, y: 20}}
-                            whileInView={{opacity: 1, y: 0}}
-                            viewport={{once: true}}
-                            transition={{duration: 0.5, delay: index * 0.1}}
-                            className="w-full min-[824px]:flex-1"
-                        >
-                            <TabButton
-                                title={example.title}
-                                icon={example.icon}
-                                isActive={activeTab === index}
-                                onClick={() => setTab(index)}
-                                progress={progress}
-                                onHoverChange={(h) => {
-                                    setHovered(h);
+                {/* Header */}
+                <motion.div
+                    className="text-center max-w-[720px] mx-auto mb-16 md:mb-20"
+                    initial={{opacity: 0, y: 16}}
+                    whileInView={{opacity: 1, y: 0}}
+                    viewport={{once: true}}
+                    transition={{duration: 0.6}}
+                >
+                    <p className="font-mono text-[12px] md:text-[13px] uppercase tracking-[0.14em] text-brand mb-5">
+                        01 — Web3 · Blockchain Native
+                    </p>
+                    <h2 className="text-[36px] md:text-[52px] leading-[1.12] tracking-[-0.035em] font-medium text-code-fg mb-5">
+                        Built for the{" "}
+                        <span className="bg-gradient-to-r from-brand via-brand-highlight to-brand bg-clip-text text-transparent">
+                            on-chain
+                        </span>{" "}
+                        economy.
+                    </h2>
+                    <p className="text-[15px] md:text-[17px] leading-[1.65] text-code-muted max-w-[560px] mx-auto">
+                        Blockchain isn&apos;t a plugin here. x402 payments ship today,
+                        a full wallet/RPC/contract SDK is on the way — your dApp backend,
+                        first-class from line one.
+                    </p>
+                </motion.div>
 
-                                    if (!h) progress.set(100);
-                                }}
-                            />
-                        </motion.div>
+                {/* Capability cards */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5 mb-16 md:mb-20">
+                    {WEB3_CARDS.map((card, i) => (
+                        <Web3Card key={card.tag} card={card} index={i}/>
                     ))}
                 </div>
 
-                <div className="relative">
-                    <motion.div
-                        initial={{opacity: 0, y: 20}}
-                        whileInView={{opacity: 1, y: 0}}
-                        viewport={{once: true}}
-                        transition={{duration: 0.6, delay: 0.2}}
-                    >
-                        <CodeExampleCard
-                            code={activeExample.code}
-                        />
-                    </motion.div>
-
-                    <div className="flex gap-[8px] justify-center mt-[24px] md:mt-[32px]">
-                        {Web3Sdk.map((_, index) => (
+                {/* SDK preview */}
+                <motion.div
+                    className="max-w-[760px] mx-auto"
+                    initial={{opacity: 0, y: 16}}
+                    whileInView={{opacity: 1, y: 0}}
+                    viewport={{once: true}}
+                    transition={{duration: 0.6, delay: 0.15}}
+                >
+                    <div className="flex items-center justify-center gap-2 mb-5">
+                        {SDK_TABS.map((t, i) => (
                             <button
-                                key={index}
-                                onClick={() => setTab(index)}
-                                className={`h-[3px] rounded-full transition-all duration-300 cursor-pointer 
-                                    ${activeTab === index ?
-                                        "w-[32px] md:w-[40px] bg-brand-purple" :
-                                        "w-[16px] md:w-[20px] bg-border/50 hover:bg-border"
-                                    }
-                                `}
-                                aria-label={`Go to ${Web3Sdk[index].title}`}
-                            />
+                                key={t.key}
+                                onClick={() => setActive(i)}
+                                className={`h-[32px] px-4 rounded-full text-[13px] font-medium transition-colors cursor-pointer ${
+                                    active === i
+                                        ? "bg-code-fg text-night"
+                                        : "bg-code-fg/5 hover:bg-code-fg/10 text-code-muted border border-code-border"
+                                }`}
+                            >
+                                {t.key}
+                            </button>
                         ))}
                     </div>
+
+                    <div className="relative">
+                        {/* glow under the code window */}
+                        <div
+                            aria-hidden="true"
+                            className="absolute inset-x-10 bottom-[-24px] h-[60px] bg-[radial-gradient(ellipse,rgba(255,108,2,0.14),transparent_70%)] pointer-events-none"
+                        />
+                        <div className="relative shadow-[0_0_0_1px_rgba(255,108,2,0.12),0_24px_64px_-32px_rgba(255,108,2,0.25)] rounded-xl">
+                            <CodeBlock code={SDK_TABS[active].code} title={SDK_TABS[active].file}/>
+                        </div>
+                    </div>
+                </motion.div>
+
+                {/* $BJBN contract plaque */}
+                <motion.div
+                    className="max-w-[760px] mx-auto mt-12"
+                    initial={{opacity: 0, y: 12}}
+                    whileInView={{opacity: 1, y: 0}}
+                    viewport={{once: true}}
+                    transition={{duration: 0.5, delay: 0.1}}
+                >
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5 bg-code-bg border border-code-border rounded-xl px-5 py-4">
+                        <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-brand shrink-0">
+                            $BJBN · Solana CA
+                        </span>
+                        <code className="font-mono text-[12px] md:text-[13px] text-code-muted break-all flex-1">
+                            {BJBN_CA}
+                        </code>
+                        <span className="shrink-0">
+                            <CopyButton text={BJBN_CA}/>
+                        </span>
+                    </div>
+                </motion.div>
+
+                <CornerCross className="bottom-[-64px] left-4 md:left-6"/>
+                <CornerCross className="bottom-[-64px] right-4 md:right-6"/>
                 </div>
             </div>
         </section>

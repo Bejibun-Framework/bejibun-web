@@ -1,262 +1,189 @@
-import {AnimatePresence, motion} from "framer-motion";
+"use client";
+
+import {motion} from "framer-motion";
 import {useState} from "react";
-import {CanvasRevealEffect} from "@/components/ui/canvas-reveal-effect";
-import {MagicCard} from "@/components/ui/magic-card";
+import {CodeBlock} from "@/components/ui/code-block";
 
-// KeyFeatures.tsx
-type Feature = {
-    title: string;
-    description: string;
-    descriptionItalic?: string;
-};
+// Real code from the framework README — not pseudo-code.
+const DX_TABS = [
+    {
+        key: "Routing",
+        file: "routes/test.ts",
+        summary: "Grouping, prefixes, middleware chaining, and Laravel-style resource routes.",
+        code: `import Router from "@bejibun/core/facades/Router";
+import TestMiddleware from "@/app/middlewares/TestMiddleware";
 
-// Feature card data structure (typed so optional fields are allowed everywhere)
-const FEATURES: Record<string, Feature> = {
-    databaseORMPower: {
-        title: "Database and ORM Power",
-        description:
-            "Powered by Knex.js with Eloquent-style models, soft deletes, and upcoming transaction support. ",
-        descriptionItalic:
-            "Making complex schemas easy across PostgreSQL, MySQL, and SQLite.",
-    },
-    routingMiddleware: {
-        title: "Routing and Middleware Mastery",
-        description:
-            "An advanced, intuitive router with grouping, prefixes, middleware chaining, and full HTTP method, parameter, and guard support—ideal for API-heavy dApps. ",
-    },
-    validationSecurity: {
-        title: "Validation and Security",
-        description:
-            "Integrates VineJS for powerful validation, plus a rate limiter and Redis-based TTL caching to boost security and performance.",
-    },
-    storageUtilities: {
-        title: "Storage and Utilities",
-        description:
-            "A dedicated Storage class for file operations, with upcoming cross-disk support—plus CORS, logging, and a scaffolding CLI for easy setup.",
-    },
-    performance: {
-        title: "Performance Edge",
-        description:
-            "Running on Bun, Bejibun handles concurrent requests with minimal overhead, ideal for real-time Web3 apps like DeFi protocols or NFT marketplaces.",
-        // descriptionItalic is optional — add it here if you want:
-        // descriptionItalic: "Optional italic line for performance.",
-    },
-};
+export default Router.prefix("test")
+    .middleware(new TestMiddleware())
+    .group([
+        Router.get("get", "TestController@get"),
+        Router.get("detail/:id", "TestController@detail"),
+        Router.post("add", "TestController@add"),
+        Router.delete("delete/:id", "TestController@delete"),
 
-// Background gradient blobs
-function BackgroundGradients() {
-    return (
-        <>
-            {/* Purple gradient blob - top left */}
-            <div
-                className="absolute bg-brand-purple/30 blur-[120px] filter left-[-50px] opacity-30 rounded-full size-[400px] top-0"/>
+        Router.resource("path", YourController, {
+            only: ["index", "store"]
+        })
+    ]);`
+    },
+    {
+        key: "Controller",
+        file: "app/controllers/TestController.ts",
+        summary: "Parse, validate, respond — the request lifecycle you already know.",
+        code: `import BaseController from "@bejibun/core/bases/BaseController";
+import TestModel from "@/app/models/TestModel";
+import TestValidator from "@/app/validators/TestValidator";
 
-            {/* Pink gradient blob - bottom right */}
-            <div
-                className="absolute bg-brand-pink/30 blur-[120px] bottom-0 filter right-[-50px] opacity-30 rounded-full size-[400px]"/>
-        </>
-    );
+export default class TestController extends BaseController {
+    public async detail(request: Bun.BunRequest): Promise<Response> {
+        const body = await super.parse(request);
+        await super.validate(TestValidator.detail, body);
+
+        const test = await TestModel.findOrFail(body.id);
+
+        return super.response.setData(test).send();
+    }
+}`
+    },
+    {
+        key: "Model",
+        file: "app/models/TestModel.ts",
+        summary: "Eloquent-style models with soft deletes, withTrashed, and restore built in.",
+        code: `import BaseModel from "@bejibun/core/bases/BaseModel";
+
+export default class TestModel extends BaseModel {
+    public static tableName: string = "tests";
+    public static idColumn: string = "id";
+
+    declare id: bigint;
+    declare name: string;
 }
 
-function RevealOnHover({
-                           children,
-                           animationSpeed = 3,
-                           dotSize = 2,
-                       }: {
-    children: React.ReactNode;
-    animationSpeed?: number;
-    dotSize?: number;
-}) {
-    const [hovered, setHovered] = useState(false);
+// Familiar, chainable API:
+await TestModel.all();
+await TestModel.findOrFail(id);
+await TestModel.create({name: "Bejibun"});
+await TestModel.find(id).update({name: "Updated"});
+await TestModel.find(id).delete();   // soft delete
+await TestModel.onlyTrashed();
+await TestModel.find(id).restore();`
+    },
+    {
+        key: "Validator",
+        file: "app/validators/TestValidator.ts",
+        summary: "VineJS-powered validators with database-aware rules like exists().",
+        code: `import BaseValidator from "@bejibun/core/bases/BaseValidator";
+import TestModel from "@/app/models/TestModel";
 
-    return (
-        <div
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
-            className="relative h-full w-full"
-        >
-            <AnimatePresence>
-                {hovered && (
-                    <motion.div
-                        initial={{opacity: 0}}
-                        animate={{opacity: 1}}
-                        exit={{opacity: 0}}
-                        className="absolute inset-0 z-0"
-                    >
-                        <CanvasRevealEffect
-                            animationSpeed={animationSpeed}
-                            containerClassName="bg-card"
-                            colors={[
-                                // brand-pink: #E056C1
-                                [224, 86, 193],
-                                // brand-purple: #6a5cff
-                                [106, 92, 255],
-                            ]}
-                            dotSize={dotSize}
-                        />
-                        {/* Theme-safe radial fade */}
-                        <div
-                            className="absolute inset-0 [mask-image:radial-gradient(320px_at_center,white,transparent)] bg-background/60"/>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+export default class TestValidator extends BaseValidator {
+    public static get detail() {
+        return super.validator.create({
+            id: super.validator.number().min(1)
+                .exists(TestModel, "id")
+        });
+    }
 
-            {/* Content should render above the canvas */}
-            <div className="relative z-10 h-full w-full">{children}</div>
-        </div>
-    );
-}
+    public static get add() {
+        return super.validator.create({
+            name: super.validator.string()
+        });
+    }
+}`
+    },
+    {
+        key: "CLI",
+        file: "bun ace",
+        summary: "Generators, migrations, queues, maintenance mode — artisan, reborn as ace.",
+        code: `$ bun ace
 
-// Small intro card with gradient text
-function IntroCard() {
-    return (
-        <MagicCard className="relative max-h-[318px] h-full w-full overflow-clip rounded-[12px]">
-            <RevealOnHover>
-                <div
-                    className="absolute left-[32px] top-1/2 -translate-y-1/2 w-full max-w-[220px] lg:max-w-[220px] md:max-w-none md:relative md:left-0 md:top-0 md:translate-y-0 md:p-[32px]">
-                    <h2 className="text-[28px] md:text-[32px] lg:text-[36px] leading-[1.2] tracking-[-0.8px]">
-                        <span className="text-foreground">What makes </span>
-                        <span
-                            className="bg-gradient-to-b from-brand-pink to-brand-purple bg-clip-text text-transparent">
-                            Bejibun{" "}
-                        </span>
-                        <span className="text-foreground">stand out</span>
-                        <span className="text-foreground">?</span>
-                    </h2>
-                </div>
-            </RevealOnHover>
-            {/* Card inner shadow */}
-            <div
-                className="absolute inset-0 pointer-events-none shadow-[inset_0px_-0.5px_2px_rgba(255,255,255,0.06),inset_0px_-1px_4px_rgba(255,255,255,0.04)]"/>
-        </MagicCard>
-    );
-}
+make:command          Create a new command file
+make:controller       Create a new controller file
+make:middleware       Create a new middleware file
+make:migration        Create a new migration file
+make:model            Create a new model file
+make:validator        Create a new validator file
 
+migrate:latest        Run latest migration
+migrate:rollback      Rollback the latest migrations
+migrate:fresh         Rollback all and re-run migrations
+db:seed               Run database seeders
 
-// Large feature card (Performance)
-function LargeFeatureCard() {
-    const {title, description, descriptionItalic} = FEATURES.performance;
+queue:work            Process jobs on the queue as a daemon
+maintenance:down      Turn app into maintenance mode`
+    }
+];
 
-    return (
-        <MagicCard className="relative rounded-[12px] h-full w-full overflow-clip">
-            <div className="flex flex-col justify-between p-[24px] md:p-[32px] h-full">
-                <h3 className="text-[24px] md:text-[28px] lg:text-[32px] leading-[1.2] tracking-[-0.8px] text-foreground">
-                    {title}
-                </h3>
+const DX_POINTS = [
+    {title: "Routing & middleware", detail: "Groups, prefixes, guards, and resource routes for API-heavy dApps."},
+    {title: "Eloquent-style ORM", detail: "Objection.js + Knex: soft deletes, migrations, seeders. PostgreSQL, MySQL, SQLite."},
+    {title: "Validation & security", detail: "VineJS validators, rate limiter, Redis TTL caching."},
+    {title: "Queues, scheduler & WebSocket", detail: "Job.dispatch().delay().send(), cron-style Kernel, Router.websocket()."},
+    {title: "Storage & utilities", detail: "Multi-disk Storage facade, CORS, logging, @ApiDoc Swagger decorator."}
+];
 
-                <div
-                    className="text-[16px] md:text-[18px] leading-[1.6] tracking-[-0.2px] text-muted-foreground max-w-[480px]">
-                    <span>{description}</span>
-                    {descriptionItalic ? (
-                        <span className="italic">{descriptionItalic}</span>
-                    ) : null}
-                </div>
-            </div>
-            {/* Card inner shadow */}
-            <div
-                className="absolute inset-0 pointer-events-none shadow-[inset_0px_-0.5px_2px_rgba(255,255,255,0.06),inset_0px_-1px_4px_rgba(255,255,255,0.04)]"/>
-        </MagicCard>
-    );
-}
-
-// Standard feature card
-function FeatureCard({title, description, descriptionItalic}: Feature) {
-    return (
-        <MagicCard className="relative rounded-[12px] overflow-clip h-full w-full">
-
-            <div className="p-[24px] md:p-[32px] flex flex-col justify-between h-full">
-                <h3 className="text-[22px] md:text-[24px] lg:text-[28px] leading-[1.2] tracking-[-0.8px] text-foreground">
-                    {title}
-                </h3>
-
-                <div className="text-[15px] md:text-[16px] leading-[1.6] tracking-[-0.2px] text-muted-foreground">
-                    <span>{description}</span>
-                    {descriptionItalic ? (
-                        <span className="italic">{descriptionItalic}</span>
-                    ) : null}
-                </div>
-            </div>
-            {/* Card inner shadow */}
-            <div
-                className="absolute inset-0 pointer-events-none shadow-[inset_0px_-0.5px_2px_rgba(255,255,255,0.06),inset_0px_-1px_4px_rgba(255,255,255,0.04)]"/>
-        </MagicCard>
-    );
-}
-
-// Main KeyFeatures component
 export function KeyFeatures() {
+    const [active, setActive] = useState(0);
+    const tab = DX_TABS[active];
+
     return (
-        <section id="features"
-                 className="bg-black relative w-full py-[60px] md:py-[80px] lg:py-[100px] overflow-hidden">
-            <BackgroundGradients/>
+        <section id="dx" className="py-[80px] md:py-[112px] border-b border-border">
+            <div className="max-w-[1150px] mx-auto px-4 md:px-6">
+                <motion.div
+                    initial={{opacity: 0, y: 16}}
+                    whileInView={{opacity: 1, y: 0}}
+                    viewport={{once: true}}
+                    transition={{duration: 0.6}}
+                    className="mb-12 md:mb-16"
+                >
+                    <p className="font-mono text-[12px] md:text-[13px] uppercase tracking-[0.12em] text-brand mb-4">
+                        02 — Developer Experience
+                    </p>
+                    <h2 className="text-[32px] md:text-[44px] leading-[1.15] tracking-[-0.03em] font-medium max-w-[640px]">
+                        Everything you know from Laravel. In TypeScript.
+                    </h2>
+                </motion.div>
 
-            <div className="max-w-[1200px] mx-auto px-4 md:px-6">
-                <div
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-auto gap-[16px] md:gap-[20px] lg:gap-[24px]">
-                    {/* Row 1, Col 1: Intro Card */}
+                <div className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-10 lg:gap-14">
+                    {/* Feature list */}
                     <motion.div
-                        className="min-h-[240px] md:min-h-[280px] lg:min-h-[320px]"
-                        initial={{opacity: 0, y: 20}}
+                        initial={{opacity: 0, y: 16}}
                         whileInView={{opacity: 1, y: 0}}
                         viewport={{once: true}}
-                        transition={{duration: 0.5, delay: 0.0}}
+                        transition={{duration: 0.6, delay: 0.1}}
+                        className="flex flex-col"
                     >
-                        <IntroCard/>
+                        {DX_POINTS.map((point) => (
+                            <div key={point.title} className="py-4 border-b border-border last:border-b-0">
+                                <h3 className="text-[15px] font-medium mb-1">{point.title}</h3>
+                                <p className="text-[13.5px] leading-[1.6] text-muted-foreground">{point.detail}</p>
+                            </div>
+                        ))}
                     </motion.div>
 
-                    {/* Row 1, Col 2-3: Large Performance Card */}
+                    {/* Code tabs */}
                     <motion.div
-                        className="md:col-span-1 lg:col-span-2 min-h-[280px] md:min-h-[280px] lg:min-h-[320px]"
-                        initial={{opacity: 0, y: 20}}
+                        initial={{opacity: 0, y: 16}}
                         whileInView={{opacity: 1, y: 0}}
                         viewport={{once: true}}
-                        transition={{duration: 0.5, delay: 0.1}}
+                        transition={{duration: 0.6, delay: 0.2}}
                     >
-                        <LargeFeatureCard/>
-                    </motion.div>
-
-                    {/* Row 2, Col 1-2: Routing Middleware (spans 2 columns) */}
-                    <motion.div
-                        className="min-h-[240px] md:min-h-[280px] lg:min-h-[320px] md:col-span-2 lg:col-span-2"
-                        initial={{opacity: 0, y: 20}}
-                        whileInView={{opacity: 1, y: 0}}
-                        viewport={{once: true}}
-                        transition={{duration: 0.5, delay: 0.2}}
-                    >
-                        <FeatureCard {...FEATURES.routingMiddleware} />
-                    </motion.div>
-
-                    {/* Row 2, Col 3: Database ORM */}
-                    <motion.div
-                        className="min-h-[240px] md:min-h-[280px] lg:min-h-[320px]"
-                        initial={{opacity: 0, y: 20}}
-                        whileInView={{opacity: 1, y: 0}}
-                        viewport={{once: true}}
-                        transition={{duration: 0.5, delay: 0.3}}
-                    >
-                        <FeatureCard {...FEATURES.databaseORMPower} />
-                    </motion.div>
-
-                    {/* Row 3, Col 1: Validation Security */}
-                    <motion.div
-                        className="min-h-[240px] md:min-h-[280px] lg:min-h-[320px]"
-                        initial={{opacity: 0, y: 20}}
-                        whileInView={{opacity: 1, y: 0}}
-                        viewport={{once: true}}
-                        transition={{duration: 0.5, delay: 0.4}}
-                    >
-                        <FeatureCard {...FEATURES.validationSecurity} />
-                    </motion.div>
-
-                    {/* Row 3, Col 2-3: Storage Utilities (spans 2 columns) */}
-                    <motion.div
-                        className="min-h-[240px] md:min-h-[280px] lg:min-h-[320px] md:col-span-2 lg:col-span-2"
-                        initial={{opacity: 0, y: 20}}
-                        whileInView={{opacity: 1, y: 0}}
-                        viewport={{once: true}}
-                        transition={{duration: 0.5, delay: 0.5}}
-                    >
-                        <FeatureCard {...FEATURES.storageUtilities} />
+                        <div className="flex flex-wrap gap-1.5 mb-4">
+                            {DX_TABS.map((t, i) => (
+                                <button
+                                    key={t.key}
+                                    onClick={() => setActive(i)}
+                                    className={`h-[32px] px-4 rounded-full text-[13px] font-medium transition-colors cursor-pointer ${
+                                        active === i
+                                            ? "bg-foreground text-background"
+                                            : "bg-shade hover:bg-shade-hover text-muted-foreground"
+                                    }`}
+                                >
+                                    {t.key}
+                                </button>
+                            ))}
+                        </div>
+                        <p className="text-[14px] text-muted-foreground mb-4">{tab.summary}</p>
+                        <CodeBlock code={tab.code} title={tab.file} plain={tab.key === "CLI"}/>
                     </motion.div>
                 </div>
             </div>

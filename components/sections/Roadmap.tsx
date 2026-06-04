@@ -1,337 +1,164 @@
 "use client";
 
 import {motion} from "framer-motion";
-import {Dot, Check} from "lucide-react";
-import React from "react";
-import {Timeline} from "../ui/timeline";
+
+type RoadmapItem = {label: string; done?: boolean; href?: string};
+
+const QUARTERS: Array<{
+    title: string;
+    status: "done" | "partial" | "planned";
+    summary: string;
+    items: RoadmapItem[];
+}> = [
+    {
+        title: "Q4 2025",
+        status: "done",
+        summary: "Framework foundation & core infrastructure.",
+        items: [
+            {label: "Installation CLI", done: true},
+            {label: "Core framework", done: true},
+            {label: "Command", done: true},
+            {label: "Router", done: true},
+            {label: "Rate limiter", done: true},
+            {label: "@bejibun/cors", done: true, href: "https://github.com/Bejibun-Framework/bejibun-cors"},
+            {label: "@bejibun/redis", done: true, href: "https://github.com/Bejibun-Framework/bejibun-redis"},
+            {label: "@bejibun/cache", done: true, href: "https://github.com/Bejibun-Framework/bejibun-cache"},
+            {label: "@bejibun/x402", done: true, href: "https://github.com/Bejibun-Framework/bejibun-x402"},
+            {label: "Storage (local)", done: true},
+            {label: "CoinGecko listing", done: true, href: "https://www.coingecko.com/en/coins/bejibun"}
+        ]
+    },
+    {
+        title: "Q1 2026",
+        status: "done",
+        summary: "Platform growth & essential services.",
+        items: [
+            {label: "Website Phase 1", done: true},
+            {label: "Storage: S3", done: true},
+            {label: "Queue: job dispatch", done: true},
+            {label: "Queue: worker", done: true}
+        ]
+    },
+    {
+        title: "Q2 2026",
+        status: "partial",
+        summary: "Scalability, scheduling & storage expansion.",
+        items: [
+            {label: "Scheduler / cron", done: true},
+            {label: "Route list (Swagger)", done: true},
+            {label: "WebSocket", done: true},
+            {label: "Unit test", done: true},
+            {label: "HTTP requests"},
+            {label: "Database transaction"},
+            {label: "Cache: Memcached"},
+            {label: "Storage: disk management"},
+            {label: "Storage: archive"},
+            {label: "Storage: cross disks"}
+        ]
+    },
+    {
+        title: "Q3 2026",
+        status: "planned",
+        summary: "Testing, real-time features & database expansion.",
+        items: [
+            {label: "Website Phase 2"},
+            {label: "MySQL support"},
+            {label: "MongoDB support"},
+            {label: "Model relations"},
+            {label: "CoinMarketCap listing"}
+        ]
+    },
+    {
+        title: "Q4 2026",
+        status: "planned",
+        summary: "Performance optimization & ecosystem maturity.",
+        items: [
+            {label: "Mail service"},
+            {label: "Own ORM (Bun SQL)"},
+            {label: "Authentication"},
+            {label: "SEO"},
+            {label: "Token utility"},
+            {label: "CEX listing"}
+        ]
+    }
+];
+
+const STATUS_META = {
+    done: {label: "Shipped", className: "text-success"},
+    partial: {label: "In progress", className: "text-warning"},
+    planned: {label: "Planned", className: "text-faint"}
+} as const;
 
 export function Roadmap() {
-    const data = [
-        {
-            title: "Q4 2025",
-            content: (
-                <div className="space-y-3">
-                    <p className="text-white/80 text-sm md:text-base leading-relaxed">
-                        Framework foundation & core infrastructure.
-                    </p>
-                    <div className="grid gap-2">
-                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <Check className="size-[16px]"/>
-                            <p className="text-white/90 text-sm">Installation CLI bunx @bejibun/cli your-project</p>
-                        </div>
-                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <Check className="size-[16px]"/>
-                            <p className="text-white/90 text-sm">Initial Bejibun Framework</p>
-                        </div>
-                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <Check className="size-[16px]"/>
-                            <p className="text-white/90 text-sm">Command</p>
-                        </div>
-                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <Check className="size-[16px]"/>
-                            <p className="text-white/90 text-sm">Router</p>
-                        </div>
-                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <Check className="size-[16px]"/>
-                            <p className="text-white/90 text-sm">Rate Limiter</p>
-                        </div>
-                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <Check className="size-[16px]"/>
-                            <p className="text-white/90 text-sm">
-                                Cors
-                                <a
-                                    href="https://github.com/Bejibun-Framework/bejibun-cors/blob/master/README.md"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-brand-purple hover:underline ml-1"
-                                >
-                                    (@bejibun/cors)
-                                </a>
-                            </p>
-                        </div>
-                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <Check className="size-[16px]"/>
-                            <p className="text-white/90 text-sm">
-                                Redis
-                                <a
-                                    href="https://github.com/Bejibun-Framework/bejibun-redis/blob/master/README.md"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-brand-purple hover:underline ml-1"
-                                >
-                                    (@bejibun/redis)
-                                </a>
-                            </p>
-                        </div>
-                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <Check className="size-[16px]"/>
-                            <p className="text-white/90 text-sm">
-                                Cache
-                                <a
-                                    href="https://github.com/Bejibun-Framework/bejibun-cache/blob/master/README.md"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-brand-purple hover:underline ml-1"
-                                >
-                                    (@bejibun/cache)
-                                </a>
-                            </p>
-                        </div>
-                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <Check className="size-[16px]"/>
-                            <p className="text-white/90 text-sm">
-                                x402 Protocol
-                                <a
-                                    href="https://github.com/Bejibun-Framework/bejibun-x402/blob/master/README.md"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-brand-purple hover:underline ml-1"
-                                >
-                                    (@bejibun/x402)
-                                </a>
-                            </p>
-                        </div>
-                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <Check className="size-[16px]"/>
-                            <p className="text-white/90 text-sm">
-                                Listing
-                                <a
-                                    href="https://www.coingecko.com/en/coins/bejibun"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-brand-purple hover:underline ml-1"
-                                >
-                                    Coingecko
-                                </a>
-                            </p>
-                        </div>
-                        <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <div className="flex flex-col gap-1">
-                                <div className="flex items-center gap-2">
-                                    <Check className="size-[16px]"/>
-                                    <span className="text-white/90 text-sm">Storage:</span>
-                                </div>
-
-                                <div className="flex items-center gap-2 pl-6 text-sm text-white/80">
-                                    <Dot className="size-[16px]"/>
-                                    <Check className="size-[16px]"/>
-                                    <span>Local</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            ),
-        },
-        {
-            title: "Q1 2026",
-            content: (
-                <div className="space-y-3">
-                    <p className="text-white/80 text-sm md:text-base leading-relaxed">
-                        Platform growth & essential services.
-                    </p>
-                    <div className="grid gap-2">
-                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <Check className="size-[16px]"/>
-                            <p className="text-white/90 text-sm">Website Phase 1</p>
-                        </div>
-                        <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <div className="flex flex-col gap-1">
-                                <div className="flex items-center gap-2">
-                                    <Check className="size-[16px]"/>
-                                    <span className="text-white/90 text-sm">Storage:</span>
-                                </div>
-
-                                <div className="flex items-center gap-2 pl-6 text-sm text-white/80">
-                                    <Dot className="size-[16px]"/>
-                                    <Check className="size-[16px]"/>
-                                    <span>S3</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <div className="flex flex-col gap-1">
-                                <div className="flex items-center gap-2">
-                                    <Check className="size-[16px]"/>
-                                    <span className="text-white/90 text-sm">Queue:</span>
-                                </div>
-
-                                <div className="flex items-center gap-2 pl-6 text-sm text-white/80">
-                                    <Dot className="size-[16px]"/>
-                                    <Check className="size-[16px]"/>
-                                    <span>Job Dispatch</span>
-                                </div>
-                                <div className="flex items-center gap-2 pl-6 text-sm text-white/80">
-                                    <Dot className="size-[16px]"/>
-                                    <Check className="size-[16px]"/>
-                                    <span>Queue Worker</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            ),
-        },
-        {
-            title: "Q2 2026",
-            content: (
-                <div className="space-y-3">
-                    <p className="text-white/80 text-sm md:text-base leading-relaxed">
-                        Scalability, scheduling & storage expansion.
-                    </p>
-                    <div className="grid gap-2">
-                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <Check className="size-[16px]"/>
-                            <p className="text-white/90 text-sm">Scheduler / Cronjob</p>
-                        </div>
-                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <Check className="size-[16px]"/>
-                            <p className="text-white/90 text-sm">Route List (Swagger)</p>
-                        </div>
-                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <Check className="size-[16px]"/>
-                            <p className="text-white/90 text-sm">WebSocket</p>
-                        </div>
-                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <Check className="size-[16px]"/>
-                            <p className="text-white/90 text-sm">Unit Test</p>
-                        </div>
-                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <p className="text-white/90 text-sm">HTTP Requests</p>
-                        </div>
-                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <p className="text-white/90 text-sm">Database Transaction</p>
-                        </div>
-                        <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <div className="flex flex-col gap-1">
-                                <div className="flex items-center gap-2">
-                                    <span className="text-white/90 text-sm">Cache:</span>
-                                </div>
-
-                                <div className="flex items-center gap-2 pl-6 text-sm text-white/80">
-                                    <Dot className="size-[16px]"/>
-                                    <span>Memcached</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <div className="flex flex-col gap-1">
-                                <div className="flex items-center gap-2">
-                                    <span className="text-white/90 text-sm">Storage:</span>
-                                </div>
-
-                                <div className="flex items-center gap-2 pl-6 text-sm text-white/80">
-                                    <Dot className="size-[16px]"/>
-                                    <span>Disk Management</span>
-                                </div>
-                                <div className="flex items-center gap-2 pl-6 text-sm text-white/80">
-                                    <Dot className="size-[16px]"/>
-                                    <span>
-                                        Archive
-                                        <a
-                                            href="https://bun.com/docs/runtime/archive"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-brand-purple hover:underline ml-1"
-                                        >
-                                            (Reference)
-                                        </a>
-                                    </span>
-                                </div>
-                                <div className="flex items-center gap-2 pl-6 text-sm text-white/80">
-                                    <Dot className="size-[16px]"/>
-                                    <span>Cross Disks</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            ),
-        },
-        {
-            title: "Q3 2026",
-            content: (
-                <div className="space-y-3">
-                    <p className="text-white/80 text-sm md:text-base leading-relaxed">
-                        Testing, real-time features & database expansion.
-                    </p>
-                    <div className="grid gap-2">
-                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <p className="text-white/90 text-sm">Website Phase 2</p>
-                        </div>
-                        <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <div className="flex flex-col gap-1">
-                                <div className="flex items-center gap-2">
-                                    <span className="text-white/90 text-sm">Database Supports:</span>
-                                </div>
-
-                                <div className="flex items-center gap-2 pl-6 text-sm text-white/80">
-                                    <Dot className="size-[16px]"/>
-                                    <span>Mysql</span>
-                                </div>
-                                <div className="flex items-center gap-2 pl-6 text-sm text-white/80">
-                                    <Dot className="size-[16px]"/>
-                                    <span>MongoDB</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <p className="text-white/90 text-sm">Model Relations</p>
-                        </div>
-                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <p className="text-white/90 text-sm">Listing Coinmarketcap</p>
-                        </div>
-                    </div>
-                </div>
-            ),
-        },
-        {
-            title: "Q4 2026",
-            content: (
-                <div className="space-y-3">
-                    <p className="text-white/80 text-sm md:text-base leading-relaxed">
-                        Performance optimization & ecosystem maturity.
-                    </p>
-                    <div className="grid gap-2">
-                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <p className="text-white/90 text-sm">Mail Service</p>
-                        </div>
-                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <p className="text-white/90 text-sm">Build own ORM based on Bun SQL</p>
-                        </div>
-                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <p className="text-white/90 text-sm">Authentication</p>
-                        </div>
-                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <p className="text-white/90 text-sm">SEO</p>
-                        </div>
-                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <p className="text-white/90 text-sm">Token Utility</p>
-                        </div>
-                        <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                            <p className="text-white/90 text-sm">Listing CEX</p>
-                        </div>
-                    </div>
-                </div>
-            ),
-        },
-    ];
-
     return (
-        <section id="roadmap" className="bg-black relative w-full overflow-hidden">
-            <motion.div
-                initial={{opacity: 0, y: 20}}
-                whileInView={{opacity: 1, y: 0}}
-                viewport={{once: true}}
-                transition={{duration: 0.6}}
-            >
-                <Timeline
-                    className="bg-black dark:bg-black"
-                    title="Roadmap"
-                    description="A high-level view of what we're building next."
-                    data={data}
-                />
-            </motion.div>
+        <section id="roadmap" className="py-[80px] md:py-[112px] border-b border-border">
+            <div className="max-w-[1150px] mx-auto px-4 md:px-6">
+                <motion.div
+                    initial={{opacity: 0, y: 16}}
+                    whileInView={{opacity: 1, y: 0}}
+                    viewport={{once: true}}
+                    transition={{duration: 0.6}}
+                    className="mb-12 md:mb-16"
+                >
+                    <p className="font-mono text-[12px] md:text-[13px] uppercase tracking-[0.12em] text-brand mb-4">
+                        Roadmap
+                    </p>
+                    <h2 className="text-[32px] md:text-[44px] leading-[1.15] tracking-[-0.03em] font-medium">
+                        Where Bejibun is heading.
+                    </h2>
+                </motion.div>
+
+                <div className="flex flex-col">
+                    {QUARTERS.map((quarter, i) => {
+                        const status = STATUS_META[quarter.status];
+
+                        return (
+                            <motion.div
+                                key={quarter.title}
+                                className={`grid grid-cols-1 md:grid-cols-[220px_1fr] gap-4 md:gap-8 py-8 ${i > 0 ? "border-t border-border" : ""}`}
+                                initial={{opacity: 0, y: 12}}
+                                whileInView={{opacity: 1, y: 0}}
+                                viewport={{once: true}}
+                                transition={{duration: 0.5}}
+                            >
+                                <div>
+                                    <h3 className="font-mono text-[18px] tracking-[-0.02em] mb-1">{quarter.title}</h3>
+                                    <p className={`font-mono text-[12px] uppercase tracking-[0.08em] ${status.className}`}>
+                                        {status.label}
+                                    </p>
+                                    <p className="text-[13.5px] text-muted-foreground mt-2 max-w-[200px]">
+                                        {quarter.summary}
+                                    </p>
+                                </div>
+                                <div className="flex flex-wrap gap-2 content-start">
+                                    {quarter.items.map((item) => {
+                                        const chip = (
+                                            <span
+                                                className={`inline-flex items-center gap-1.5 text-[13px] rounded-full border px-3 py-1.5 transition-colors ${
+                                                    item.done
+                                                        ? "border-border bg-surface text-dim"
+                                                        : "border-border bg-transparent text-faint"
+                                                } ${item.href ? "hover:border-brand hover:text-brand cursor-pointer" : ""}`}
+                                            >
+                                                <span className={`size-[5px] rounded-full ${item.done ? "bg-success" : "bg-elevated"}`}/>
+                                                {item.label}
+                                            </span>
+                                        );
+
+                                        return item.href ? (
+                                            <a key={item.label} href={item.href} target="_blank" rel="noreferrer">
+                                                {chip}
+                                            </a>
+                                        ) : (
+                                            <span key={item.label}>{chip}</span>
+                                        );
+                                    })}
+                                </div>
+                            </motion.div>
+                        );
+                    })}
+                </div>
+            </div>
         </section>
     );
 }
