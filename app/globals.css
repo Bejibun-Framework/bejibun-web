@@ -1,100 +1,136 @@
 @import "tailwindcss";
 
 @custom-variant dark (&:is(.dark *));
-/* @custom-variant dark (&:is(.dark *)); */
 
+/*
+ * Bejibun design tokens — BaseHub-inspired, light mode default.
+ * See .claude/rules/design.md
+ */
 :root {
     --font-size: 16px;
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
+
+    /* Canvas & surfaces */
+    --background: #fafafa;
+    --surface: #ffffff;
+    --surface-dark: #f7f7f7;
+    --shade: #f0f0f0;
+    --shade-hover: #e3e3e3;
+    --elevated: #dedede;
+
+    /* Borders */
+    --border: #e3e3e3;
+    --border-solid: #d9d9d9;
+
+    /* Text */
+    --foreground: #040404;
+    --dim: #303030;
+    --muted-foreground: #646464;
+    --faint: #909090;
+
+    /* Accent — the single brand color */
+    --accent-brand: #ff6c02;
+    --accent-highlight: #ff8b35;
+    --accent-muted: #ffe9d9;
+
+    /* Semantic */
+    --error: #ff4949;
+    --success: #21bf9d;
+    --warning: #e0a714;
+
+    /* Dark surfaces (code blocks / terminals) */
+    --code-bg: #0c0c0c;
+    --code-fg: #f3f3f3;
+    --code-border: #252525;
+    --code-muted: #999999;
+
+    /* shadcn-compat aliases (Button.tsx etc.) */
+    --card: var(--surface);
+    --card-foreground: var(--foreground);
+    --primary: var(--accent-brand);
+    --primary-foreground: #fafafa;
+    --secondary: var(--shade);
+    --secondary-foreground: var(--dim);
+    --muted: var(--shade);
+    --accent: var(--shade);
+    --accent-foreground: var(--foreground);
+    --destructive: var(--error);
     --destructive-foreground: #ffffff;
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --input-background: #f3f3f5;
-    --switch-background: #cbced4;
+    --input: var(--border-solid);
+    --ring: var(--accent-brand);
+
+    --radius: 0.5rem;
+
+    /* Motion */
+    --duration-snappy: 0.3s;
+    --ease-snappy: cubic-bezier(0.175, 0.885, 0.32, 1.1);
+    --duration-swift: 1.8s;
+    --ease-swift: cubic-bezier(0.19, 1, 0.22, 1);
+
     --font-weight-semibold: 600;
     --font-weight-medium: 500;
     --font-weight-normal: 400;
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.646 0.222 41.116);
-    --chart-2: oklch(0.6 0.118 184.704);
-    --chart-3: oklch(0.398 0.07 227.392);
-    --chart-4: oklch(0.828 0.189 84.429);
-    --chart-5: oklch(0.769 0.188 70.08);
-    --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-}
-
-html {
-    scroll-padding-top: 120px;
 }
 
 .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --destructive-foreground: oklch(0.637 0.237 25.331);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --font-weight-medium: 500;
-    --font-weight-normal: 400;
-    --chart-1: oklch(0.488 0.243 264.376);
-    --chart-2: oklch(0.696 0.17 162.48);
-    --chart-3: oklch(0.769 0.188 70.08);
-    --chart-4: oklch(0.627 0.265 303.9);
-    --chart-5: oklch(0.645 0.246 16.439);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
-    --brand-purple: #6a5cff;
-    --brand-pink: #E056C1;
+    --background: #040404;
+    --surface: #0c0c0c;
+    --surface-dark: #121212;
+    --shade: #161616;
+    --shade-hover: #1b1b1b;
+    --elevated: #303030;
+
+    --border: #1c1c1c;
+    --border-solid: #252525;
+
+    --foreground: #f3f3f3;
+    --dim: #dedede;
+    --muted-foreground: #909090;
+    --faint: #646464;
+
+    --card: var(--surface);
+    --card-foreground: var(--foreground);
+    --secondary: var(--shade);
+    --secondary-foreground: var(--dim);
+    --muted: var(--shade);
+    --accent: var(--shade);
+    --accent-foreground: var(--foreground);
+    --input: var(--border-solid);
+}
+
+html {
+    scroll-padding-top: 88px;
+    scroll-behavior: smooth;
 }
 
 @theme inline {
     --color-background: var(--background);
     --color-foreground: var(--foreground);
+    --color-surface: var(--surface);
+    --color-surface-dark: var(--surface-dark);
+    --color-shade: var(--shade);
+    --color-shade-hover: var(--shade-hover);
+    --color-elevated: var(--elevated);
+    --color-border: var(--border);
+    --color-border-solid: var(--border-solid);
+    --color-dim: var(--dim);
+    --color-faint: var(--faint);
+    --color-brand: var(--accent-brand);
+    --color-brand-highlight: var(--accent-highlight);
+    --color-brand-muted: var(--accent-muted);
+    --color-error: var(--error);
+    --color-success: var(--success);
+    --color-warning: var(--warning);
+    --color-code-bg: var(--code-bg);
+    --color-code-fg: var(--code-fg);
+    --color-code-border: var(--code-border);
+    --color-code-muted: var(--code-muted);
+    /* "night" — theme-invariant dark canvas for premium feature sections */
+    --color-night: #040404;
+    --color-night-border: #1c1c1c;
+
+    /* shadcn-compat */
     --color-card: var(--card);
     --color-card-foreground: var(--card-foreground);
-    --color-popover: var(--popover);
-    --color-popover-foreground: var(--popover-foreground);
     --color-primary: var(--primary);
     --color-primary-foreground: var(--primary-foreground);
     --color-secondary: var(--secondary);
@@ -105,85 +141,17 @@ html {
     --color-accent-foreground: var(--accent-foreground);
     --color-destructive: var(--destructive);
     --color-destructive-foreground: var(--destructive-foreground);
-    --color-border: var(--border);
     --color-input: var(--input);
-    --color-input-background: var(--input-background);
-    --color-switch-background: var(--switch-background);
     --color-ring: var(--ring);
-    --color-chart-1: var(--chart-1);
-    --color-chart-2: var(--chart-2);
-    --color-chart-3: var(--chart-3);
-    --color-chart-4: var(--chart-4);
-    --color-chart-5: var(--chart-5);
+
     --radius-sm: calc(var(--radius) - 4px);
     --radius-md: calc(var(--radius) - 2px);
     --radius-lg: var(--radius);
     --radius-xl: calc(var(--radius) + 4px);
-    --color-sidebar: var(--sidebar);
-    --color-sidebar-foreground: var(--sidebar-foreground);
-    --color-sidebar-primary: var(--sidebar-primary);
-    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-    --color-sidebar-accent: var(--sidebar-accent);
-    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-    --color-sidebar-border: var(--sidebar-border);
-    --color-sidebar-ring: var(--sidebar-ring);
-    --color-brand-purple: var(--brand-purple);
-    --color-brand-pink: var(--brand-pink);
     --radius-2xl: calc(var(--radius) + 8px);
-    --radius-3xl: calc(var(--radius) + 12px);
-    --radius-4xl: calc(var(--radius) + 16px);
-    --animate-shine: shine var(--duration) infinite linear;
-    --animate-gradient: gradient 3s ease infinite;
-    --animate-float: float 3s ease-in-out infinite;
-    --animate-soft-pulse: soft-pulse 3s ease-in-out infinite;
-    
-    @keyframes shine {
-        0% {
-            background-position: 0 0;
-        }
-        50% {
-            background-position: 100% 100%;
-        }
-        to {
-            background-position: 0 0;
-        }
-    }
 
-    @keyframes gradient {
-        0% {
-            background-position: 0 50%;
-        }
-        50% {
-            background-position: 100% 50%;
-        }
-        to {
-            background-position: 0 50%;
-        }
-    }
-
-    @keyframes float {
-        0% {
-            transform: translateY(0);
-        }
-        50% {
-            transform: translateY(-4px);
-        }
-        to {
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes soft-pulse {
-        0% {
-            opacity: 0.9;
-        }
-        50% {
-            opacity: 1;
-        }
-        to {
-            opacity: 0.9;
-        }
-    }
+    --font-sans: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 @layer base {
@@ -191,58 +159,22 @@ html {
         @apply border-border outline-ring/50;
     }
 
-    body {
-        @apply bg-background text-foreground;
-        font-family: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", sans-serif;
-    }
-
-    /**
-    * Default typography styles for HTML elements (h1-h4, p, label, button, input).
-    * These are in @layer base, so Tailwind utility classes (like text-sm, text-lg) automatically override them.
-    */
     html {
         font-size: var(--font-size);
     }
 
-    h1 {
-        font-size: var(--text-2xl);
-        font-weight: var(--font-weight-semibold);
-        line-height: 1.5;
+    body {
+        @apply bg-background text-foreground font-sans;
     }
 
-    h2 {
-        font-size: var(--text-xl);
-        font-weight: var(--font-weight-semibold);
-        line-height: 1.5;
+    ::selection {
+        background: var(--accent-muted);
+        color: var(--foreground);
     }
 
-    h3 {
-        font-size: var(--text-lg);
-        font-weight: var(--font-weight-semibold);
-        line-height: 1.5;
-    }
-
-    h4 {
-        font-size: var(--text-base);
-        font-weight: var(--font-weight-semibold);
-        line-height: 1.5;
-    }
-
-    label {
-        font-size: var(--text-base);
+    h1, h2, h3, h4 {
         font-weight: var(--font-weight-medium);
-        line-height: 1.5;
-    }
-
-    button {
-        font-size: var(--text-base);
-        font-weight: var(--font-weight-medium);
-        line-height: 1.5;
-    }
-
-    input {
-        font-size: var(--text-base);
-        font-weight: var(--font-weight-normal);
-        line-height: 1.5;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
     }
 }

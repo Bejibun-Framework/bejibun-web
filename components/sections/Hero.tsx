@@ -1,388 +1,154 @@
-import {Sparkles, Info, FilePlus} from "lucide-react";
-import {motion} from "framer-motion";
-import {AnimatedGradientText} from "@/components/ui/animated-gradient-text";
-import {ShootingStars} from "@/components/ui/shooting-stars";
-import {StarsBackground} from "@/components/ui/stars-background";
-import {AnimatedSpan, Terminal, TypingAnimation} from "@/components/ui/terminal";
+"use client";
 
-// Terminal line data structure with custom icons and colors
-const TERMINAL_LINES: Array<{ text: string; className: string }> = [
-    {
-        text: "✔ Pulling starter kit.",
-        className: "text-chart-2",
-    },
-    {
-        text: "✔ Installing dependencies.",
-        className: "text-chart-2",
-    },
-    {
-        text: "✔ Cleansing.",
-        className: "text-chart-2",
-    },
-    {
-        text: "✔ Setup environment.",
-        className: "text-chart-2",
-    },
+import {motion} from "framer-motion";
+import {ArrowRight, Github} from "lucide-react";
+import {CopyButton} from "@/components/ui/code-block";
+
+const INSTALL_COMMAND = "bunx @bejibun/cli your-project";
+
+const TERMINAL_LINES = [
+    {text: "$ bunx @bejibun/cli your-project", className: "text-code-fg"},
+    {text: "✔ Pulling starter kit.", className: "text-success"},
+    {text: "✔ Installing dependencies.", className: "text-success"},
+    {text: "✔ Setup environment.", className: "text-success"},
+    {text: "ℹ Update 1 file: .env", className: "text-code-muted"},
+    {text: "Success! Project initialization completed.", className: "text-code-fg"},
+    {text: "", className: ""},
+    {text: "$ bun dev", className: "text-code-fg"},
+    {text: "Bejibun server running — cold start in <10ms", className: "text-brand-highlight"}
 ];
 
-const FILE_UPDATES: string[] = [".env"];
+const PILLARS = [
+    {
+        index: "01",
+        title: "Built for Web3 builders",
+        description: "x402 payments shipped, wallet/RPC/contract SDK on the way. Designed for dApp backends from day one."
+    },
+    {
+        index: "02",
+        title: "Laravel developer experience",
+        description: "Controllers, models, migrations, validators, and an ace CLI. Every pattern you already know — in TypeScript."
+    },
+    {
+        index: "03",
+        title: "Fast by default",
+        description: "Bun runtime under everything: <10ms cold starts, 5x faster builds, built for high-throughput APIs."
+    }
+];
 
-// Background gradient blobs
-function BackgroundGradients() {
+function TerminalDemo() {
     return (
-        <>
-            {/* Purple gradient blob - bottom left */}
-            <div
-                className="absolute bg-brand-purple/30 blur-[120px] filter left-[-50px] opacity-30 rounded-full size-[400px] md:size-[600px] top-[40%] md:top-[556px]"/>
-
-            {/* Pink gradient blob - top right */}
-            <div
-                className="absolute bg-brand-pink/30 blur-[120px] filter right-[-50px] md:left-[858px] opacity-30 rounded-full size-[400px] md:size-[600px] top-[10%] md:top-[30px]"/>
-
-            {/* Central gradient circle with glow effect - hide on mobile for performance */}
-            <div className="hidden md:block absolute left-1/2 size-[2214px] top-[627px] translate-x-[-50%]">
-                <div className="absolute inset-[-11.29%]">
-                    <svg
-                        className="block size-full"
-                        fill="none"
-                        preserveAspectRatio="none"
-                        viewBox="0 0 2714 2714"
+        <div className="bg-code-bg border border-code-border rounded-xl overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.04),0_24px_48px_-24px_rgba(0,0,0,0.12)] text-left">
+            <div className="flex items-center justify-between px-4 py-2.5 border-b border-code-border">
+                <span className="font-mono text-[12px] text-code-muted">terminal</span>
+                <CopyButton text={INSTALL_COMMAND}/>
+            </div>
+            <div className="p-5 font-mono text-[13px] md:text-[14px] leading-[1.9]">
+                {TERMINAL_LINES.map((line, i) => (
+                    <motion.div
+                        key={i}
+                        className={line.className}
+                        initial={{opacity: 0}}
+                        whileInView={{opacity: 1}}
+                        viewport={{once: true}}
+                        transition={{duration: 0.2, delay: 0.4 + i * 0.18}}
                     >
-                        <g filter="url(#filter0_dddddd_5_542)">
-                            <circle
-                                cx="1357"
-                                cy="1357"
-                                r="1105"
-                                stroke="url(#paint0_linear_5_542)"
-                                strokeOpacity="0.01"
-                                strokeWidth="4"
-                            />
-                        </g>
-                        <defs>
-                            <filter
-                                colorInterpolationFilters="sRGB"
-                                filterUnits="userSpaceOnUse"
-                                height="2714"
-                                id="filter0_dddddd_5_542"
-                                width="2714"
-                                x="0"
-                                y="0"
-                            >
-                                <feFlood
-                                    floodOpacity="0"
-                                    result="BackgroundImageFix"
-                                />
-                                <feColorMatrix
-                                    in="SourceAlpha"
-                                    result="hardAlpha"
-                                    type="matrix"
-                                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                                />
-                                <feOffset/>
-                                <feGaussianBlur stdDeviation="15.5464"/>
-                                <feColorMatrix
-                                    type="matrix"
-                                    values="0 0 0 0 0.415686 0 0 0 0 0.360784 0 0 0 0 1 0 0 0 1 0"
-                                />
-                                <feBlend
-                                    in2="BackgroundImageFix"
-                                    mode="normal"
-                                    result="effect1_dropShadow_5_542"
-                                />
-                                <feColorMatrix
-                                    in="SourceAlpha"
-                                    result="hardAlpha"
-                                    type="matrix"
-                                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                                />
-                                <feOffset/>
-                                <feGaussianBlur stdDeviation="31.0929"/>
-                                <feColorMatrix
-                                    type="matrix"
-                                    values="0 0 0 0 0.415686 0 0 0 0 0.360784 0 0 0 0 1 0 0 0 1 0"
-                                />
-                                <feBlend
-                                    in2="effect1_dropShadow_5_542"
-                                    mode="normal"
-                                    result="effect2_dropShadow_5_542"
-                                />
-                                <feColorMatrix
-                                    in="SourceAlpha"
-                                    result="hardAlpha"
-                                    type="matrix"
-                                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                                />
-                                <feOffset/>
-                                <feGaussianBlur stdDeviation="108.825"/>
-                                <feColorMatrix
-                                    type="matrix"
-                                    values="0 0 0 0 0.415686 0 0 0 0 0.360784 0 0 0 0 1 0 0 0 1 0"
-                                />
-                                <feBlend
-                                    in2="effect2_dropShadow_5_542"
-                                    mode="normal"
-                                    result="effect3_dropShadow_5_542"
-                                />
-                                <feColorMatrix
-                                    in="SourceAlpha"
-                                    result="hardAlpha"
-                                    type="matrix"
-                                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                                />
-                                <feOffset/>
-                                <feGaussianBlur stdDeviation="125"/>
-                                <feColorMatrix
-                                    type="matrix"
-                                    values="0 0 0 0 0.415686 0 0 0 0 0.360784 0 0 0 0 1 0 0 0 1 0"
-                                />
-                                <feBlend
-                                    in2="effect3_dropShadow_5_542"
-                                    mode="normal"
-                                    result="effect4_dropShadow_5_542"
-                                />
-                                <feColorMatrix
-                                    in="SourceAlpha"
-                                    result="hardAlpha"
-                                    type="matrix"
-                                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                                />
-                                <feOffset/>
-                                <feGaussianBlur stdDeviation="125"/>
-                                <feColorMatrix
-                                    type="matrix"
-                                    values="0 0 0 0 0.415686 0 0 0 0 0.360784 0 0 0 0 1 0 0 0 1 0"
-                                />
-                                <feBlend
-                                    in2="effect4_dropShadow_5_542"
-                                    mode="normal"
-                                    result="effect5_dropShadow_5_542"
-                                />
-                                <feColorMatrix
-                                    in="SourceAlpha"
-                                    result="hardAlpha"
-                                    type="matrix"
-                                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                                />
-                                <feOffset/>
-                                <feGaussianBlur stdDeviation="125"/>
-                                <feColorMatrix
-                                    type="matrix"
-                                    values="0 0 0 0 0.415686 0 0 0 0 0.360784 0 0 0 0 1 0 0 0 1 0"
-                                />
-                                <feBlend
-                                    in2="effect5_dropShadow_5_542"
-                                    mode="normal"
-                                    result="effect6_dropShadow_5_542"
-                                />
-                                <feBlend
-                                    in="SourceGraphic"
-                                    in2="effect6_dropShadow_5_542"
-                                    mode="normal"
-                                    result="shape"
-                                />
-                            </filter>
-                            <linearGradient
-                                gradientUnits="userSpaceOnUse"
-                                id="paint0_linear_5_542"
-                                x1="1357"
-                                x2="1357"
-                                y1="250"
-                                y2="2464"
-                            >
-                                <stop stopColor="#403799"/>
-                                <stop offset="1" stopColor="#6A5CFF"/>
-                            </linearGradient>
-                        </defs>
-                    </svg>
-                </div>
+                        {line.text || " "}
+                    </motion.div>
+                ))}
             </div>
-        </>
-    );
-}
-
-// Hero text content - chip, heading, and subheading
-function HeroContent() {
-    return (
-        <motion.div
-            className="relative z-10 flex flex-col items-center text-center px-4 md:px-6 pt-[120px] md:pt-[120px] max-w-[1106px] mx-auto w-full"
-            initial={{opacity: 0, y: 20}}
-            whileInView={{opacity: 1, y: 0}}
-            viewport={{once: true}}
-            transition={{duration: 0.6}}
-        >
-            {/* Chip badge */}
-            <div
-                className="flex gap-[10px] items-center justify-center px-[16px] py-[4px] rounded-[9999px] mb-[24px] md:mb-[32px] relative">
-                <div
-                    aria-hidden="true"
-                    className="absolute border border-brand-purple border-solid inset-0 pointer-events-none rounded-[9999px]"
-                />
-                <Sparkles
-                    className="size-[14px] md:size-[16px] text-brand-pink"
-                    strokeWidth={1.33333}
-                />
-                <AnimatedGradientText
-                    className="leading-[28px] md:leading-[36px] text-[14px] md:text-[16px] tracking-[-0.2px]">
-                    Bun-Native Framework
-                </AnimatedGradientText>
-            </div>
-
-            {/* Main heading */}
-            <div className="mb-[24px] md:mb-[40px]">
-                <h1 className="leading-[1.2] text-[32px] md:text-[48px] lg:text-[64px] font-semibold tracking-[-0.04em]">
-                    <span className="text-brand-purple">Fastest</span>
-                    <span>{` Framework for `}</span>
-                    <span className="text-brand-pink">Web3 Builders</span>
-                </h1>
-            </div>
-
-            {/* Subheading */}
-            <div className="mb-[32px] md:mb-[40px]">
-                <p className="leading-[1.6] text-[16px] md:text-[18px] lg:text-[20px] text-muted-foreground tracking-[-0.2px] max-w-[90%] md:max-w-full mx-auto">
-                    Modular by design. Powerful out of the box. Ready for
-                    blockchain workflows.
-                </p>
-            </div>
-
-            {/* CTA buttons */}
-            <CTAButtons/>
-        </motion.div>
-    );
-}
-
-// CTA buttons
-function CTAButtons() {
-    return (
-        <div className="flex flex-col sm:flex-row gap-[12px] md:gap-[16px] items-center mb-[48px] md:mb-[60px]">
-            {/* Primary button - Get Started */}
-            <a
-                href="https://docs.bejibun.com"
-                target="_blank"
-                rel="noreferrer"
-                className="flex h-[44px] md:h-[48px] items-center justify-center px-[14px] py-0 rounded-[6px] bg-gradient-to-br from-brand-purple to-brand-pink w-full sm:w-auto transition-transform active:scale-[0.98] hover:scale-[1.02]"
-            >
-                <div className="flex flex-col items-center overflow-clip px-[6px] py-0">
-                    <div
-                        className="flex flex-col justify-center leading-[0] not-italic text-center text-nowrap text-white">
-                        <p className="leading-[24px] text-[15px] md:text-[16px]">Get Started</p>
-                    </div>
-                </div>
-            </a>
-
-            {/* Secondary button - Buy $BJBN */}
-            <a
-                href="https://swap.pump.fun/?input=So11111111111111111111111111111111111111112&output=CQhbNnCGKfDaKXt8uE61i5DrBYJV7NPsCDD9vQgypump"
-                target="_blank"
-                rel="noreferrer"
-                className="bg-black/60 h-[44px] md:h-[48px] relative rounded-[6px] w-full sm:w-auto transition-transform active:scale-[0.98] hover:scale-[1.02]"
-            >
-                <div
-                    className="flex h-full items-center justify-center overflow-clip px-[14px] py-0 relative rounded-[inherit]">
-                    <div className="flex flex-col items-center overflow-clip px-[6px] py-0">
-                        <div
-                            className="flex flex-col justify-center leading-[0] not-italic text-foreground text-center text-nowrap">
-                            <p className="leading-[24px] text-[15px] md:text-[16px]">Buy $BJBN</p>
-                        </div>
-                    </div>
-                </div>
-                <div
-                    aria-hidden="true"
-                    className="absolute border border-brand-pink border-solid inset-0 pointer-events-none rounded-[6px] shadow-[0px_0px_0px_1px_rgba(46,46,46,1)]"
-                />
-            </a>
         </div>
     );
 }
 
-// Terminal/Code preview window
-function CodeTerminal() {
-    const command = "> bunx @bejibun/cli your-project";
-    const typingSpeed = 45;
-    const afterTypingDelay = 250;
-    const lineStagger = 220;
-    const baseDelay = command.length * typingSpeed + afterTypingDelay;
-
-    return (
-        <motion.div
-            className="relative z-10 mx-auto px-4 md:px-6 pb-[60px] md:pb-[80px] w-full max-w-[1150px]"
-            initial={{opacity: 0, y: 20}}
-            whileInView={{opacity: 1, y: 0}}
-            viewport={{once: true}}
-            transition={{duration: 0.6, delay: 0.1}}
-        >
-            <Terminal
-                className="max-w-none bg-white/5 border-white/10 text-white shadow-[0px_25px_50px_-12px_rgba(0,0,0,0.25)] rounded-[12px] md:rounded-[16px]"
-                sequence={false}
-            >
-                <TypingAnimation
-                    delay={0}
-                    duration={typingSpeed}
-                    className="text-white text-[13px] md:text-[16px] break-all"
-                >
-                    {command}
-                </TypingAnimation>
-
-                {TERMINAL_LINES.map((line, index) => (
-                    <AnimatedSpan
-                        key={line.text}
-                        delay={baseDelay + index * lineStagger}
-                        className={`text-[13px] md:text-[16px] ${line.className}`}
-                    >
-                        {line.text}
-                    </AnimatedSpan>
-                ))}
-
-                <AnimatedSpan
-                    delay={baseDelay + TERMINAL_LINES.length * lineStagger}
-                    className="text-[13px] md:text-[16px] text-brand-purple"
-                >
-                    <span className="inline-flex items-center">
-                        <Info
-                            className="size-[14px] md:size-[16px]"
-                            strokeWidth={1.33333}
-                        />
-                        <span className="pl-2">Update 1 file:</span>
-                    </span>
-                </AnimatedSpan>
-
-                {FILE_UPDATES.map((file, index) => (
-                    <AnimatedSpan
-                        key={file}
-                        delay={baseDelay + (TERMINAL_LINES.length + 1 + index) * lineStagger}
-                        className="text-[13px] md:text-[16px] text-brand-purple"
-                    >
-                        <span className="inline-flex items-center ml-6">
-                            <FilePlus
-                                className="size-[14px] md:size-[16px]"
-                                strokeWidth={1.33333}
-                            />
-                            <span className="pl-2">{file}</span>
-                        </span>
-                    </AnimatedSpan>
-                ))}
-
-                <TypingAnimation
-                    delay={baseDelay + (TERMINAL_LINES.length + 1 + FILE_UPDATES.length) * lineStagger}
-                    className="text-muted-foreground text-[13px] md:text-[16px]"
-                >
-                    Success! Project initialization completed.
-                </TypingAnimation>
-            </Terminal>
-        </motion.div>
-    );
-}
-
-// Main Hero component
 export function Hero() {
     return (
-        <section id="hero" className="bg-black relative min-h-screen w-full flex flex-col overflow-hidden">
-            <div className="absolute inset-0 z-0 pointer-events-none">
-                <StarsBackground className="opacity-80"/>
-                <ShootingStars className="opacity-60"/>
+        <section id="hero" className="relative pt-[140px] md:pt-[170px] border-b border-border">
+            <div className="max-w-[1150px] mx-auto px-4 md:px-6">
+                <motion.div
+                    className="max-w-[820px] mx-auto text-center"
+                    initial={{opacity: 0, y: 16}}
+                    animate={{opacity: 1, y: 0}}
+                    transition={{duration: 0.6}}
+                >
+                    {/* Eyebrow */}
+                    <p className="font-mono text-[12px] md:text-[13px] uppercase tracking-[0.12em] text-muted-foreground mb-6">
+                        <span className="text-brand">●</span> Bun-native TypeScript framework · MIT
+                    </p>
+
+                    {/* Headline */}
+                    <h1 className="text-[40px] md:text-[56px] lg:text-[64px] leading-[1.1] tracking-[-0.04em] font-medium mb-6">
+                        <span className="text-brand">Web3 backends</span>,
+                        <br/>
+                        at Bun speed.
+                    </h1>
+
+                    <p className="text-[16px] md:text-[18px] leading-[1.6] text-muted-foreground max-w-[560px] mx-auto mb-10">
+                        Bejibun brings Laravel-grade DX to blockchain builders —
+                        familiar patterns, instant cold starts, dApp-ready out of the box.
+                    </p>
+
+                    {/* CTAs */}
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-12">
+                        <a
+                            href="https://docs.bejibun.com"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="h-[44px] inline-flex items-center gap-2 px-6 rounded-full bg-brand hover:bg-brand-highlight text-[14px] font-medium text-primary-foreground transition-colors shadow-[0_2px_12px_rgba(255,109,5,0.25)]"
+                        >
+                            Get Started
+                            <ArrowRight className="size-4"/>
+                        </a>
+                        <a
+                            href="https://github.com/Bejibun-Framework/bejibun"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="h-[44px] inline-flex items-center gap-2 px-6 rounded-full bg-shade hover:bg-shade-hover border border-border-solid text-[14px] font-medium text-dim transition-colors"
+                        >
+                            <Github className="size-4"/>
+                            Star on GitHub
+                        </a>
+                    </div>
+
+                    {/* Install one-liner */}
+                    <div className="inline-flex items-center gap-3 bg-surface border border-border rounded-lg pl-4 pr-3 py-2.5 mb-16">
+                        <code className="font-mono text-[13px] md:text-[14px] text-dim">
+                            <span className="text-faint">$ </span>{INSTALL_COMMAND}
+                        </code>
+                        <span className="[&_button]:text-faint [&_button:hover]:text-foreground">
+                            <CopyButton text={INSTALL_COMMAND}/>
+                        </span>
+                    </div>
+                </motion.div>
+
+                {/* Terminal demo */}
+                <motion.div
+                    className="max-w-[720px] mx-auto"
+                    initial={{opacity: 0, y: 20}}
+                    animate={{opacity: 1, y: 0}}
+                    transition={{duration: 0.6, delay: 0.15}}
+                >
+                    <TerminalDemo/>
+                </motion.div>
+
+                {/* Pillars strip */}
+                <div className="grid grid-cols-1 md:grid-cols-3 mt-16 md:mt-20 border-t border-border">
+                    {PILLARS.map((pillar, i) => (
+                        <motion.div
+                            key={pillar.index}
+                            className={`py-8 md:py-10 md:px-8 ${i > 0 ? "border-t md:border-t-0 md:border-l border-border" : ""} ${i === 0 ? "md:pl-0" : ""} ${i === 2 ? "md:pr-0" : ""}`}
+                            initial={{opacity: 0, y: 12}}
+                            whileInView={{opacity: 1, y: 0}}
+                            viewport={{once: true}}
+                            transition={{duration: 0.5, delay: i * 0.1}}
+                        >
+                            <p className="font-mono text-[12px] text-brand mb-3">{pillar.index}</p>
+                            <h3 className="text-[17px] font-medium tracking-[-0.02em] mb-2">{pillar.title}</h3>
+                            <p className="text-[14px] leading-[1.6] text-muted-foreground">{pillar.description}</p>
+                        </motion.div>
+                    ))}
+                </div>
             </div>
-            <BackgroundGradients/>
-            <HeroContent/>
-            <CodeTerminal/>
         </section>
     );
 }

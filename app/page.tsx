@@ -12,15 +12,17 @@ import {Footer} from "@/components/sections/Footer";
 
 export default function App() {
     return (
-        <div className="min-h-screen bg-[#0A0A0F] text-white dark overflow-x-clip overscroll-x-none">
+        <div className="min-h-screen bg-background text-foreground overflow-x-clip">
             <Navigation/>
-            <Hero/>
-            <KeyFeatures/>
-            <Stats/>
-            <BlockchainReadiness/>
-            <Quickstart/>
-            <Roadmap/>
-            <CTA/>
+            <main>
+                <Hero/>
+                <BlockchainReadiness/>
+                <KeyFeatures/>
+                <Stats/>
+                <Quickstart/>
+                <Roadmap/>
+                <CTA/>
+            </main>
             <Footer/>
         </div>
     );
