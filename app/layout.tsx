@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "Bejibun - A typescript framework using Bun runtime",
-    description: "A typescript framework using Bun runtime",
+    title: "Bejibun — The Web3 Backend Framework at Bun Speed",
+    description: "Bejibun is a Bun-native TypeScript framework for Web3 dApps and fast APIs. x402 payments, wallet/RPC/contract SDK, Laravel-grade patterns, instant cold starts.",
     icons: {
         icon: "/favicon.ico",
         shortcut: "/favicon.ico",
@@ -26,10 +26,18 @@ export default function RootLayout({children}: Readonly<{
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html lang="en" suppressHydrationWarning>
+            <head>
+                {/* Apply persisted theme before first paint — default is light */}
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `try{if(localStorage.getItem("bejibun:theme")==="dark")document.documentElement.classList.add("dark")}catch(e){}`
+                    }}
+                />
+            </head>
             <body
                 suppressHydrationWarning={true}
-                className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#0A0A0F] text-white`}
+                className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
             >
                 {children}
             </body>
