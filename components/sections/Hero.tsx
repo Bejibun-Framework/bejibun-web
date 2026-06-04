@@ -15,7 +15,7 @@ const TERMINAL_LINES = [
     {text: "Success! Project initialization completed.", className: "text-code-fg"},
     {text: "", className: ""},
     {text: "$ bun dev", className: "text-code-fg"},
-    {text: "Bejibun server running — cold start in <10ms", className: "text-brand-highlight"}
+    {text: "🚀 Server running at http://localhost:3000", className: "text-brand-highlight"}
 ];
 
 const PILLARS = [
@@ -115,7 +115,7 @@ export function Hero() {
                         <code className="font-mono text-[13px] md:text-[14px] text-dim">
                             <span className="text-faint">$ </span>{INSTALL_COMMAND}
                         </code>
-                        <span className="[&_button]:text-faint [&_button:hover]:text-foreground">
+                        <span className="[&_button]:text-faint [&_button:hover]:text-foreground flex items-center">
                             <CopyButton text={INSTALL_COMMAND}/>
                         </span>
                     </div>

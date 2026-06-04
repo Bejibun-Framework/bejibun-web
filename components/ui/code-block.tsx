@@ -45,7 +45,10 @@ export function highlightCode(code: string): ReactNode[] {
     return nodes;
 }
 
-export function CopyButton({text, className = ""}: { text: string; className?: string }) {
+export function CopyButton({text, className = ""}: {
+    text: string;
+    className?: string;
+}) {
     const [copied, setCopied] = useState(false);
 
     const handleCopy = () => {

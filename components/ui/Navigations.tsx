@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import {Github, Menu, X} from "lucide-react";
-import * as React from "react";
+import React from "react";
 
 import {ThemeToggle} from "./theme-toggle";
 
@@ -24,7 +24,8 @@ export function Navigation() {
                     <a href="#hero" className="flex items-center gap-2.5">
                         <Image src="/logo.png" alt="Bejibun" width={28} height={28} className="rounded-md" priority/>
                         <span className="text-[16px] font-medium tracking-[-0.02em]">Bejibun</span>
-                        <span className="hidden sm:inline font-mono text-[11px] text-faint border border-border rounded-full px-2 py-0.5">
+                        <span
+                            className="hidden sm:inline font-mono text-[11px] text-faint border border-border rounded-full px-2 py-0.5">
                             v0.4
                         </span>
                     </a>
@@ -56,14 +57,6 @@ export function Navigation() {
                             href="https://docs.bejibun.com"
                             target="_blank"
                             rel="noreferrer"
-                            className="text-[14px] text-muted-foreground hover:text-foreground transition-colors"
-                        >
-                            Docs
-                        </a>
-                        <a
-                            href="https://docs.bejibun.com"
-                            target="_blank"
-                            rel="noreferrer"
                             className="h-[34px] inline-flex items-center px-4 rounded-full bg-brand hover:bg-brand-highlight text-[13px] font-medium text-primary-foreground transition-colors"
                         >
                             Get Started
@@ -72,15 +65,15 @@ export function Navigation() {
 
                     <div className="md:hidden flex items-center gap-1">
                         <ThemeToggle/>
-                    <button
-                        type="button"
-                        onClick={() => setOpen((v) => !v)}
-                        className="p-2 text-muted-foreground hover:text-foreground"
-                        aria-label={open ? "Close menu" : "Open menu"}
-                        aria-expanded={open}
-                    >
-                        {open ? <X className="size-5"/> : <Menu className="size-5"/>}
-                    </button>
+                        <button
+                            type="button"
+                            onClick={() => setOpen((v) => !v)}
+                            className="p-2 text-muted-foreground hover:text-foreground"
+                            aria-label={open ? "Close menu" : "Open menu"}
+                            aria-expanded={open}
+                        >
+                            {open ? <X className="size-5"/> : <Menu className="size-5"/>}
+                        </button>
                     </div>
                 </div>
 
@@ -109,9 +102,9 @@ export function Navigation() {
                                 href="https://docs.bejibun.com"
                                 target="_blank"
                                 rel="noreferrer"
-                                className="text-[15px] text-muted-foreground hover:text-foreground"
+                                className="h-[34px] inline-flex items-center px-4 rounded-full bg-brand hover:bg-brand-highlight text-[13px] font-medium text-primary-foreground transition-colors"
                             >
-                                Docs
+                                Get Started
                             </a>
                         </div>
                     </div>

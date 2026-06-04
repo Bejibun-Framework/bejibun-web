@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "Bejibun — The Web3 Backend Framework at Bun Speed",
-    description: "Bejibun is a Bun-native TypeScript framework for Web3 dApps and fast APIs. x402 payments, wallet/RPC/contract SDK, Laravel-grade patterns, instant cold starts.",
+    title: "Bejibun - A modern TypeScript framework powered by Bun",
+    description: "Bejibun is a high-performance framework built on the Bun runtime.",
     icons: {
         icon: "/favicon.ico",
         shortcut: "/favicon.ico",
@@ -27,20 +27,24 @@ export default function RootLayout({children}: Readonly<{
 }>) {
     return (
         <html lang="en" suppressHydrationWarning>
-            <head>
-                {/* Apply persisted theme before first paint — default is light */}
-                <script
-                    dangerouslySetInnerHTML={{
-                        __html: `try{if(localStorage.getItem("bejibun:theme")==="dark")document.documentElement.classList.add("dark")}catch(e){}`
-                    }}
-                />
-            </head>
-            <body
-                suppressHydrationWarning={true}
-                className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
-            >
-                {children}
-            </body>
+        <head>
+            {/* Apply persisted theme before first paint — default is light */}
+            <script
+                dangerouslySetInnerHTML={{
+                    __html: `
+                        try {
+                            if (localStorage.getItem("bejibun:theme") === "dark") document.documentElement.classList.add("dark")
+                        } catch (e) {}
+                    `
+                }}
+            />
+        </head>
+        <body
+            suppressHydrationWarning={true}
+            className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
+        >
+        {children}
+        </body>
         </html>
     );
 };

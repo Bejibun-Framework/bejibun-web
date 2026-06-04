@@ -52,7 +52,7 @@ export function CTA() {
                         <code className="font-mono text-[13px] md:text-[14px] text-dim">
                             <span className="text-faint">$ </span>{INSTALL_COMMAND}
                         </code>
-                        <span className="[&_button]:text-faint [&_button:hover]:text-foreground">
+                        <span className="[&_button]:text-faint [&_button:hover]:text-foreground flex items-center">
                             <CopyButton text={INSTALL_COMMAND}/>
                         </span>
                     </div>
