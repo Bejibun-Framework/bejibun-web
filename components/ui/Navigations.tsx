@@ -22,7 +22,7 @@ export function Navigation() {
             <div className="max-w-[1150px] mx-auto px-4 md:px-6">
                 <div className="flex items-center justify-between h-[64px]">
                     <a href="#hero" className="flex items-center gap-2.5">
-                        <Image src="/logo.png" alt={process.env.NEXT_PUBLIC_NAME} width={28} height={28} className="rounded-md" priority/>
+                        <Image src="/logo.png" alt={process.env.NEXT_PUBLIC_NAME as string} width={28} height={28} className="rounded-md" priority/>
                         <span className="text-[16px] font-medium tracking-[-0.02em]">
                             {process.env.NEXT_PUBLIC_NAME}
                         </span>

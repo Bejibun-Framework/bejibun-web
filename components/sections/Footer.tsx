@@ -37,7 +37,7 @@ export function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-12">
                     <div className="max-w-[280px]">
                         <div className="flex items-center gap-2.5 mb-3">
-                            <Image src="/logo.png" alt={process.env.NEXT_PUBLIC_NAME} width={28} height={28} className="rounded-md"/>
+                            <Image src="/logo.png" alt={process.env.NEXT_PUBLIC_NAME as string} width={28} height={28} className="rounded-md"/>
                             <span className="text-[16px] font-medium tracking-[-0.02em]">
                                 {process.env.NEXT_PUBLIC_NAME}
                             </span>

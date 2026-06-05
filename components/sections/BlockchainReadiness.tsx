@@ -254,7 +254,7 @@ export function BlockchainReadiness() {
                             <code className="font-mono text-[12px] md:text-[13px] text-code-muted break-all flex-1">
                                 {process.env.NEXT_PUBLIC_CA}
                             </code>
-                            <CopyButton text={process.env.NEXT_PUBLIC_CA}/>
+                            <CopyButton text={process.env.NEXT_PUBLIC_CA as string}/>
                         </div>
                     </motion.div>
 
