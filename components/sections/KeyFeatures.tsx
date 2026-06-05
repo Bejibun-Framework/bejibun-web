@@ -8,9 +8,10 @@ import {CodeBlock} from "@/components/ui/code-block";
 const DX_TABS = [
     {
         key: "Routing",
-        file: "routes/test.ts",
+        file: "routes/api/test.ts",
         summary: "Grouping, prefixes, middleware chaining, and Laravel-style resource routes.",
         code: `import Router from "@bejibun/core/facades/Router";
+import YourController from "@/app/controllers/YourController";
 import TestMiddleware from "@/app/middlewares/TestMiddleware";
 
 export default Router.prefix("test")
@@ -19,10 +20,16 @@ export default Router.prefix("test")
         Router.get("get", "TestController@get"),
         Router.get("detail/:id", "TestController@detail"),
         Router.post("add", "TestController@add"),
+        Router.post("edit", "TestController@edit"),
         Router.delete("delete/:id", "TestController@delete"),
+        Router.get("restore/:id", "TestController@restore"),
 
+        Router.resource("path", YourController),
         Router.resource("path", YourController, {
-            only: ["index", "store"]
+            only: ["index", "store"] // "index" | "store" | "show" | "update" | "destroy"
+        }),
+        Router.resource("path", YourController, {
+            except: ["index", "store"] // "index" | "store" | "show" | "update" | "destroy"
         })
     ]);`
     },
@@ -49,7 +56,8 @@ export default class TestController extends BaseController {
         key: "Model",
         file: "app/models/TestModel.ts",
         summary: "Eloquent-style models with soft deletes, withTrashed, and restore built in.",
-        code: `import BaseModel from "@bejibun/core/bases/BaseModel";
+        code: `import type {Timestamp, NullableTimestamp} from "@bejibun/core/bases/BaseModel";
+import BaseModel from "@bejibun/core/bases/BaseModel";
 
 export default class TestModel extends BaseModel {
     public static tableName: string = "tests";
@@ -57,6 +65,9 @@ export default class TestModel extends BaseModel {
 
     declare id: bigint;
     declare name: string;
+    declare created_at: Timestamp;
+    declare updated_at: Timestamp;
+    declare deleted_at: NullableTimestamp;
 }
 
 // Familiar, chainable API:
@@ -66,24 +77,24 @@ await TestModel.create({name: "Bejibun"});
 await TestModel.find(id).update({name: "Updated"});
 await TestModel.find(id).delete();   // soft delete
 await TestModel.onlyTrashed();
-await TestModel.find(id).restore();`
+await TestModel.withTrashed().find(id).restore();`
     },
     {
         key: "Validator",
         file: "app/validators/TestValidator.ts",
-        summary: "VineJS-powered validators with database-aware rules like exists().",
-        code: `import BaseValidator from "@bejibun/core/bases/BaseValidator";
+        summary: "VineJS powered validators with database aware rules like exists() and unique().",
+        code: `import type {ValidatorType} from "@bejibun/core/types/ValidatorType";
+import BaseValidator from "@bejibun/core/bases/BaseValidator";
 import TestModel from "@/app/models/TestModel";
 
 export default class TestValidator extends BaseValidator {
-    public static get detail() {
+    public static get detail(): ValidatorType {
         return super.validator.create({
-            id: super.validator.number().min(1)
-                .exists(TestModel, "id")
+            id: super.validator.number().min(1).exists(TestModel, "id")
         });
     }
 
-    public static get add() {
+    public static get add(): ValidatorType {
         return super.validator.create({
             name: super.validator.string()
         });
@@ -93,32 +104,65 @@ export default class TestValidator extends BaseValidator {
     {
         key: "CLI",
         file: "bun ace",
-        summary: "Generators, migrations, queues, maintenance mode — artisan, reborn as ace.",
+        summary: "Scaffolding, migrations, queues, maintenance mode — artisan, reborn as ace.",
         code: `$ bun ace
+Usage: ace [options] [command]
 
-make:command          Create a new command file
-make:controller       Create a new controller file
-make:middleware       Create a new middleware file
-make:migration        Create a new migration file
-make:model            Create a new model file
-make:validator        Create a new validator file
+Ace for your commander
+Author: Havea Crenata <havea.crenata@gmail.com>
 
-migrate:latest        Run latest migration
-migrate:rollback      Rollback the latest migrations
-migrate:fresh         Rollback all and re-run migrations
-db:seed               Run database seeders
+Options:
+  -v, --version                Show the current version
+  -h, --help                   display help for command
 
-queue:work            Process jobs on the queue as a daemon
-maintenance:down      Turn app into maintenance mode`
+Commands:
+  db:seed [options]            Run database seeders
+
+  install <packages...>        Install package dependencies
+
+  maintenance:down [options]   Turn app into maintenance mode
+  maintenance:up               Turn app into live mode
+
+  make:command <file>          Create a new command file
+  make:controller <file>       Create a new controller file
+  make:job <file>              Create a new job file
+  make:middleware <file>       Create a new middleware file
+  make:migration <file>        Create a new migration file
+  make:model <file>            Create a new model file
+  make:seeder <file>           Create a new seeder file
+  make:validator <file>        Create a new validator file
+
+  migrate:fresh [options]      Rollback all migrations and re-run migrations
+  migrate:latest               Run latest migration
+  migrate:rollback [options]   Rollback the latest migrations
+  migrate:status [options]     List migrations status
+
+  package:configure [options]  Configure package after installation
+
+  queue:flush                  Flush all of the failed queue jobs
+  queue:retry                  Retry a failed queue job
+  queue:work                   Start processing jobs on the queue as a daemon
+
+  route:list                   List all registered routes
+
+  schedule:work                Start the schedule worker
+
+  help [command]               display help for command
+
+Examples:
+  $ bun ace --help
+  $ bun ace --version
+  $ bun ace migrate:latest
+`
     }
 ];
 
 const DX_POINTS = [
-    {title: "Routing & middleware", detail: "Groups, prefixes, guards, and resource routes for API-heavy dApps."},
+    {title: "Routing & Middleware", detail: "Groups, prefixes, guards, and resource routes for API-heavy dApps."},
     {title: "Eloquent-style ORM", detail: "Objection.js + Knex: soft deletes, migrations, seeders. PostgreSQL, MySQL, SQLite."},
-    {title: "Validation & security", detail: "VineJS validators, rate limiter, Redis TTL caching."},
-    {title: "Queues, scheduler & WebSocket", detail: "Job.dispatch().delay().send(), cron-style Kernel, Router.websocket()."},
-    {title: "Storage & utilities", detail: "Multi-disk Storage facade, CORS, logging, @ApiDoc Swagger decorator."}
+    {title: "Validation & Security", detail: "VineJS validators, rate limiter, cache system."},
+    {title: "Queues, Scheduler & WebSocket", detail: "Job.dispatch().delay().send(), cron-style kernel, Router.websocket()."},
+    {title: "Storage & Utilities", detail: "Multi-disk storage facade, CORS, logging, @ApiDoc swagger decorator."}
 ];
 
 export function KeyFeatures() {

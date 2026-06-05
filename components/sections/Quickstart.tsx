@@ -42,7 +42,7 @@ const STEPS = [
     },
     {
         title: "Create a project",
-        description: "Scaffold a new Bejibun app with the CLI.",
+        description: `Scaffold a new ${process.env.NEXT_PUBLIC_NAME} app with the CLI.`,
         content: <CodeBlock code={"bunx @bejibun/cli your-project\ncd your-project"} title="bash" plain/>
     },
     {
@@ -51,7 +51,7 @@ const STEPS = [
         content: <CodeBlock code="bun dev" title="bash" plain/>
     },
     {
-        title: "Build & ship",
+        title: "Build & Ship",
         description: "Production mode, one command away.",
         content: <CodeBlock code="bun start" title="bash" plain/>
     }

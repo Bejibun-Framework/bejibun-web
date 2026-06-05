@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "Bejibun - A modern TypeScript framework powered by Bun",
-    description: "Bejibun is a high-performance framework built on the Bun runtime.",
+    title: `${process.env.NEXT_PUBLIC_NAME} - A modern TypeScript framework powered by Bun`,
+    description: `${process.env.NEXT_PUBLIC_NAME} is a high-performance framework built on the Bun runtime.`,
     icons: {
         icon: "/favicon.ico",
         shortcut: "/favicon.ico",

@@ -84,7 +84,7 @@ export function Hero() {
                     </h1>
 
                     <p className="text-[16px] md:text-[18px] leading-[1.6] text-muted-foreground max-w-[560px] mx-auto mb-10">
-                        Bejibun brings Laravel-grade DX to blockchain builders —
+                        {process.env.NEXT_PUBLIC_NAME} brings Laravel-grade DX to blockchain builders —
                         familiar patterns, instant cold starts, dApp-ready out of the box.
                     </p>
 

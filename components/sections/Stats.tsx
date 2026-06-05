@@ -45,7 +45,7 @@ export function Stats() {
                             Fast where it counts.
                         </h2>
                         <p className="text-[15px] leading-[1.6] text-muted-foreground max-w-[400px]">
-                            Bejibun runs on Bun — ideal for DeFi protocols, NFT marketplaces,
+                            {process.env.NEXT_PUBLIC_NAME} runs on Bun — ideal for DeFi protocols, NFT marketplaces,
                             and any API where latency is a feature.
                         </p>
                     </div>

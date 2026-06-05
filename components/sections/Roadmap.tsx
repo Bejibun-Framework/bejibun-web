@@ -24,7 +24,7 @@ const QUARTERS: Array<{
             {label: "@bejibun/redis", done: true, href: "https://github.com/Bejibun-Framework/bejibun-redis"},
             {label: "@bejibun/cache", done: true, href: "https://github.com/Bejibun-Framework/bejibun-cache"},
             {label: "@bejibun/x402", done: true, href: "https://github.com/Bejibun-Framework/bejibun-x402"},
-            {label: "Storage (local)", done: true},
+            {label: "Storage: Local", done: true},
             {label: "CoinGecko listing", done: true, href: "https://www.coingecko.com/en/coins/bejibun"}
         ]
     },
@@ -35,8 +35,8 @@ const QUARTERS: Array<{
         items: [
             {label: "Website Phase 1", done: true},
             {label: "Storage: S3", done: true},
-            {label: "Queue: job dispatch", done: true},
-            {label: "Queue: worker", done: true}
+            {label: "Queue: Job dispatch", done: true},
+            {label: "Queue: Worker", done: true}
         ]
     },
     {
@@ -48,12 +48,13 @@ const QUARTERS: Array<{
             {label: "Route list (Swagger)", done: true},
             {label: "WebSocket", done: true},
             {label: "Unit test", done: true},
-            {label: "HTTP requests"},
+            {label: "Website Phase 2", done: true},
+            {label: "HTTP client"},
             {label: "Database transaction"},
             {label: "Cache: Memcached"},
-            {label: "Storage: disk management"},
-            {label: "Storage: archive"},
-            {label: "Storage: cross disks"}
+            {label: "Storage: Disk management"},
+            {label: "Storage: Archive"},
+            {label: "Storage: Cross disks"}
         ]
     },
     {
@@ -61,7 +62,6 @@ const QUARTERS: Array<{
         status: "planned",
         summary: "Testing, real-time features & database expansion.",
         items: [
-            {label: "Website Phase 2"},
             {label: "MySQL support"},
             {label: "MongoDB support"},
             {label: "Model relations"},
@@ -104,7 +104,7 @@ export function Roadmap() {
                         Roadmap
                     </p>
                     <h2 className="text-[32px] md:text-[44px] leading-[1.15] tracking-[-0.03em] font-medium">
-                        Where Bejibun is heading.
+                        Where {process.env.NEXT_PUBLIC_NAME} is heading.
                     </h2>
                 </motion.div>
 

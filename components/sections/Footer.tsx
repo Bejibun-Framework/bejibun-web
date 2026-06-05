@@ -37,8 +37,10 @@ export function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-12">
                     <div className="max-w-[280px]">
                         <div className="flex items-center gap-2.5 mb-3">
-                            <Image src="/logo.png" alt="Bejibun" width={28} height={28} className="rounded-md"/>
-                            <span className="text-[16px] font-medium tracking-[-0.02em]">Bejibun</span>
+                            <Image src="/logo.png" alt={process.env.NEXT_PUBLIC_NAME} width={28} height={28} className="rounded-md"/>
+                            <span className="text-[16px] font-medium tracking-[-0.02em]">
+                                {process.env.NEXT_PUBLIC_NAME}
+                            </span>
                         </div>
                         <p className="text-[13.5px] leading-[1.6] text-muted-foreground">
                             A Bun-native TypeScript framework for building fast APIs and Web3 backends.
@@ -71,7 +73,7 @@ export function Footer() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row justify-between gap-2 pt-10 mt-12 border-t border-border">
-                    <p className="text-[13px] text-faint">© 2025 Bejibun. MIT License.</p>
+                    <p className="text-[13px] text-faint">&copy; {new Date().getFullYear()} {process.env.NEXT_PUBLIC_NAME}. MIT License.</p>
                     <p className="font-mono text-[12px] text-faint">Built with Bun. Obviously.</p>
                 </div>
             </div>
