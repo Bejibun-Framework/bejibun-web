@@ -78,7 +78,7 @@ export function Hero() {
 
                     {/* Headline */}
                     <h1 className="text-[40px] md:text-[56px] lg:text-[64px] leading-[1.1] tracking-[-0.04em] font-medium mb-6">
-                        <span className="text-brand">The Fastest Way to Build</span>,
+                        <span className="text-brand">The Fastest Way to Build</span>
                         <br/>
                         with Bun
                     </h1>

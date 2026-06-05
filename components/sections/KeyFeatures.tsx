@@ -34,6 +34,45 @@ export default Router.prefix("test")
     ]);`
     },
     {
+        key: "Middleware",
+        file: "app/middlewares/TestMiddleware.ts",
+        summary: "Inspect, transform, and guard requests before they reach your application.",
+        code: `import type {HandlerType} from "@bejibun/core/types";
+import Logger from "@bejibun/logger";
+
+export default class TestMiddleware {
+    public handle(handler: HandlerType): HandlerType {
+        return async (request: Bun.BunRequest, server: Bun.Server<any>) => {
+            Logger.setContext("TestMiddleware").debug(request.url);
+
+            return handler(request, server);
+        };
+    }
+}`
+    },
+    {
+        key: "Validator",
+        file: "app/validators/TestValidator.ts",
+        summary: "VineJS powered validators with database aware rules like exists() and unique().",
+        code: `import type {ValidatorType} from "@bejibun/core/types/ValidatorType";
+import BaseValidator from "@bejibun/core/bases/BaseValidator";
+import TestModel from "@/app/models/TestModel";
+
+export default class TestValidator extends BaseValidator {
+    public static get detail(): ValidatorType {
+        return super.validator.create({
+            id: super.validator.number().min(1).exists(TestModel, "id")
+        });
+    }
+
+    public static get add(): ValidatorType {
+        return super.validator.create({
+            name: super.validator.string()
+        });
+    }
+}`
+    },
+    {
         key: "Controller",
         file: "app/controllers/TestController.ts",
         summary: "Parse, validate, respond — the request lifecycle you already know.",
@@ -80,23 +119,97 @@ await TestModel.onlyTrashed();
 await TestModel.withTrashed().find(id).restore();`
     },
     {
-        key: "Validator",
-        file: "app/validators/TestValidator.ts",
-        summary: "VineJS powered validators with database aware rules like exists() and unique().",
-        code: `import type {ValidatorType} from "@bejibun/core/types/ValidatorType";
-import BaseValidator from "@bejibun/core/bases/BaseValidator";
+        key: "WebSocket",
+        file: "app/websockets/ChatWebSocket.ts",
+        summary: "Real-time events and persistent connections without the ceremony.",
+        code: `import BaseWebSocket from "@bejibun/core/bases/BaseWebSocket";
+
+export default class ChatWebSocket extends BaseWebSocket {
+    public async handle(
+        ws: Bun.ServerWebSocket<any>,
+        message: string | Buffer<ArrayBuffer>
+    ): Promise<void> {
+        for (const connection of super.connections) {
+            if (connection.data.id !== ws.data.id) {
+                if (connection.readyState === 1) {
+                    connection.send(message);
+                }
+            }
+        }
+    }
+}`
+    },
+    {
+        key: "Command",
+        file: "app/commands/HelloWorldCommand.ts",
+        summary: "Build custom CLI commands with arguments, options, and scheduled automation.",
+        code: `import Logger from "@bejibun/logger";
+
+export default class HelloWorldCommand {
+    /**
+     * The name and signature of the console command.
+     *
+     * @var $signature string
+     */
+    protected $signature: string = "hello:world";
+
+    /**
+     * The console command description.
+     *
+     * @var $description string
+     */
+    protected $description: string = "Run hello world";
+
+    /**
+     * The options or optional flag of the console command.
+     *
+     * @var $options Array<Array<string>>
+     */
+    protected $options: Array<Array<string>> = [];
+
+    /**
+     * The arguments of the console command.
+     *
+     * @var $arguments Array<Array<string>>
+     */
+    protected $arguments: Array<Array<string>> = [];
+
+    public async handle(options: any, args: Array<string>): Promise<void> {
+        Logger.debug("Hello World!");
+    }
+}`
+    },
+    {
+        key: "Migration",
+        file: "database/migrations/20250929_000001_tests.ts",
+        summary: "Evolve your database schema safely with reversible, versioned migrations.",
+        code: `import type {Knex} from "knex";
 import TestModel from "@/app/models/TestModel";
 
-export default class TestValidator extends BaseValidator {
-    public static get detail(): ValidatorType {
-        return super.validator.create({
-            id: super.validator.number().min(1).exists(TestModel, "id")
-        });
-    }
+export function up(knex: Knex): Knex.SchemaBuilder {
+    return knex.schema.createTable(TestModel.tableName, (table: Knex.TableBuilder) => {
+        table.bigIncrements("id");
+        table.string("name");
+        table.timestamps(true, true);
+        table.timestamp("deleted_at");
+    });
+}
 
-    public static get add(): ValidatorType {
-        return super.validator.create({
-            name: super.validator.string()
+export function down(knex: Knex): Knex.SchemaBuilder {
+    return knex.schema.dropTable(TestModel.tableName);
+}`
+    },
+    {
+        key: "Seeder",
+        file: "database/seeders/20250929_000001_seeder_test.ts",
+        summary: "Seed realistic data for development, testing, and fresh deployments.",
+        code: `import type {Knex} from "knex";
+import TestModel from "@/app/models/TestModel";
+
+export async function seed(knex: Knex): Promise<void> {
+    for (const name of ["Name 1", "Name 2", "Name 3"]) {
+        await TestModel.query(knex).insert({
+            name: name
         });
     }
 }`
@@ -159,10 +272,13 @@ Examples:
 
 const DX_POINTS = [
     {title: "Routing & Middleware", detail: "Groups, prefixes, guards, and resource routes for API-heavy dApps."},
-    {title: "Eloquent-style ORM", detail: "Objection.js + Knex: soft deletes, migrations, seeders. PostgreSQL, MySQL, SQLite."},
-    {title: "Validation & Security", detail: "VineJS validators, rate limiter, cache system."},
-    {title: "Queues, Scheduler & WebSocket", detail: "Job.dispatch().delay().send(), cron-style kernel, Router.websocket()."},
-    {title: "Storage & Utilities", detail: "Multi-disk storage facade, CORS, logging, @ApiDoc swagger decorator."}
+    {title: "Controllers & Validation", detail: "Parse, validate, and respond with VineJS-powered validators, request helpers, and database-aware rules."},
+    {title: "Eloquent-style ORM", detail: "Objection.js + Knex with soft deletes, query builders, migrations, seeders, and multi-database support."},
+    {title: "Real-time & Background Jobs", detail: "WebSockets, queues, delayed jobs, retries, and cron-style task scheduling built into the framework."},
+    {title: "CLI & Scaffolding", detail: `Generate controllers, models, validators, migrations, seeders, commands, and more with "bun ace".`},
+    {title: "Storage & Utilities", detail: "Multi-disk storage, caching, logging, CORS, maintenance mode, and production-ready helpers."},
+    {title: "API Documentation", detail: "Swagger/OpenAPI generation with decorators and automatic endpoint discovery."},
+    {title: "Bun-Native Performance", detail: "Built from the ground up for Bun with fast startup times, minimal overhead, and TypeScript-first development."}
 ];
 
 export function KeyFeatures() {
