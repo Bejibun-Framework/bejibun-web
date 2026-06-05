@@ -299,7 +299,7 @@ export function KeyFeatures() {
                         02 — Developer Experience
                     </p>
                     <h2 className="text-[32px] md:text-[44px] leading-[1.15] tracking-[-0.03em] font-medium max-w-[640px]">
-                        Everything you know from Laravel. In TypeScript.
+                        Build features, not boilerplate.
                     </h2>
                 </motion.div>
 
