@@ -18,13 +18,12 @@ export function CTA() {
                     transition={{duration: 0.6}}
                 >
                     <h2 className="text-[36px] md:text-[48px] leading-[1.15] tracking-[-0.03em] font-medium mb-5">
-                        Ship your next backend
+                        Ready to build at
                         <br/>
-                        on <span className="text-brand">Bun</span>.
+                        <span className="text-brand">Bun</span> speed?
                     </h2>
                     <p className="text-[16px] md:text-[17px] leading-[1.6] text-muted-foreground mb-10">
-                        Laravel patterns you trust, performance your users feel,
-                        and Web3 capabilities your roadmap needs.
+                        Start your next backend project with a framework designed for performance, productivity, and scale.
                     </p>
 
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-10">

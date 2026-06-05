@@ -78,14 +78,13 @@ export function Hero() {
 
                     {/* Headline */}
                     <h1 className="text-[40px] md:text-[56px] lg:text-[64px] leading-[1.1] tracking-[-0.04em] font-medium mb-6">
-                        <span className="text-brand">Web3 backends</span>,
+                        <span className="text-brand">The Fastest Way to Build</span>,
                         <br/>
-                        at Bun speed.
+                        with Bun
                     </h1>
 
                     <p className="text-[16px] md:text-[18px] leading-[1.6] text-muted-foreground max-w-[560px] mx-auto mb-10">
-                        {process.env.NEXT_PUBLIC_NAME} brings Laravel-grade DX to blockchain builders —
-                        familiar patterns, instant cold starts, dApp-ready out of the box.
+                        A batteries-included TypeScript framework for building scalable APIs, Web3 platforms, and backend services with confidence.
                     </p>
 
                     {/* CTAs */}
