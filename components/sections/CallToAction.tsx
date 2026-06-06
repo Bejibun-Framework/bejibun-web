@@ -6,7 +6,7 @@ import {CopyButton} from "@/components/ui/code-block";
 
 const INSTALL_COMMAND = "bunx @bejibun/cli your-project";
 
-export function CTA() {
+export function CallToAction() {
     return (
         <section className="py-[80px] md:py-[128px] border-b border-border">
             <div className="max-w-[1150px] mx-auto px-4 md:px-6">

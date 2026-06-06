@@ -2,12 +2,12 @@
 
 import {Navigation} from "@/components/ui/Navigations";
 import {Hero} from "@/components/sections/Hero";
-import {KeyFeatures} from "@/components/sections/KeyFeatures";
-import {Stats} from "@/components/sections/Stats";
-import {BlockchainReadiness} from "@/components/sections/BlockchainReadiness";
+import {DeveloperExperiences} from "@/components/sections/DeveloperExperiences";
+import {Performances} from "@/components/sections/Performances";
+import {Web3} from "@/components/sections/Web3";
 import {Quickstart} from "@/components/sections/Quickstart";
 import {Roadmap} from "@/components/sections/Roadmap";
-import {CTA} from "@/components/sections/CTA";
+import {CallToAction} from "@/components/sections/CallToAction";
 import {Footer} from "@/components/sections/Footer";
 
 export default function App() {
@@ -16,12 +16,12 @@ export default function App() {
             <Navigation/>
             <main>
                 <Hero/>
-                <BlockchainReadiness/>
-                <KeyFeatures/>
-                <Stats/>
+                <Web3/>
+                <DeveloperExperiences/>
+                <Performances/>
                 <Quickstart/>
                 <Roadmap/>
-                <CTA/>
+                <CallToAction/>
             </main>
             <Footer/>
         </div>

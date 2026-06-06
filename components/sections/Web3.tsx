@@ -142,7 +142,7 @@ function Web3Card({card, index}: {
     );
 }
 
-export function BlockchainReadiness() {
+export function Web3() {
     const [active, setActive] = useState(0);
 
     return (

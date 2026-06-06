@@ -3,7 +3,7 @@
 import {motion} from "framer-motion";
 import {NumberTicker} from "../ui/number-ticker";
 
-const STATS = [
+const performances = [
     {
         render: () => <NumberTicker value={10} prefix="<" suffix="ms" startWhenInView/>,
         label: "Cold start",
@@ -26,7 +26,7 @@ const STATS = [
     }
 ];
 
-export function Stats() {
+export function Performances() {
     return (
         <section id="performance" className="py-[80px] md:py-[112px] border-b border-border bg-surface-dark">
             <div className="max-w-[1150px] mx-auto px-4 md:px-6">
@@ -57,7 +57,7 @@ export function Stats() {
                     sm:max-lg:[&>*:nth-child(even)]:border-l sm:max-lg:[&>*:nth-child(even)]:pl-8
                     sm:max-lg:[&>*:nth-child(n+3)]:border-t
                     lg:[&>*+*]:border-l lg:[&>*+*]:pl-8">
-                    {STATS.map((stat, i) => (
+                    {performances.map((stat, i) => (
                         <motion.div
                             key={stat.label}
                             className="py-8 md:py-10 sm:pr-8"

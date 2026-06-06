@@ -281,7 +281,7 @@ const DX_POINTS = [
     {title: "Bun-Native Performance", detail: "Built from the ground up for Bun with fast startup times, minimal overhead, and TypeScript-first development."}
 ];
 
-export function KeyFeatures() {
+export function DeveloperExperiences() {
     const [active, setActive] = useState(0);
     const tab = DX_TABS[active];
 
