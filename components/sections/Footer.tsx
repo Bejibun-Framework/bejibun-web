@@ -8,7 +8,8 @@ const LINK_GROUPS = [
         links: [
             {label: "Documentation", href: "https://docs.bejibun.com"},
             {label: "GitHub", href: "https://github.com/Bejibun-Framework/bejibun"},
-            {label: "Releases", href: "https://github.com/Bejibun-Framework/bejibun/releases"}
+            {label: "Releases", href: "https://github.com/Bejibun-Framework/bejibun/releases"},
+            {label: "Donate \uD83C\uDF31", href: "https://donatr.ee/bejibun-framework"}
         ]
     },
     {

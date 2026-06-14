@@ -43,7 +43,7 @@ export default function RootLayout({children}: Readonly<{
             suppressHydrationWarning={true}
             className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
         >
-        {children}
+            {children}
         </body>
         </html>
     );
