@@ -18,7 +18,7 @@ export function Navigation() {
     const [open, setOpen] = React.useState(false);
 
     return (
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-sm border-b border-border">
+        <nav className="bg-background/90 backdrop-blur-sm border-b border-border">
             <div className="max-w-[1150px] mx-auto px-4 md:px-6">
                 <div className="flex items-center justify-between h-[64px]">
                     <a href="#hero" className="flex items-center gap-2.5">

@@ -63,7 +63,7 @@ function TerminalDemo() {
 
 export function Hero() {
     return (
-        <section id="hero" className="relative pt-[140px] md:pt-[170px] border-b border-border">
+        <section id="hero" className="relative pt-[180px] md:pt-[210px] border-b border-border">
             <div className="max-w-[1150px] mx-auto px-4 md:px-6">
                 <motion.div
                     className="max-w-[820px] mx-auto text-center"
