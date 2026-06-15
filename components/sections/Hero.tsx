@@ -122,20 +122,27 @@ export function Hero() {
 
                 {/* Terminal demo */}
                 <motion.div
-                    className="max-w-[720px] mx-auto"
+                    className="max-w-[720px] mx-auto pb-[80px] md:pb-[120px]"
                     initial={{opacity: 0, y: 20}}
                     animate={{opacity: 1, y: 0}}
                     transition={{duration: 0.6, delay: 0.15}}
                 >
                     <TerminalDemo/>
                 </motion.div>
+            </div>
+        </section>
+    );
+}
 
-                {/* Pillars strip */}
-                <div className="grid grid-cols-1 md:grid-cols-3 mt-16 md:mt-20 border-t border-border">
+export function HeroPillars() {
+    return (
+        <section className="border-b border-border">
+            <div className="max-w-[1150px] mx-auto px-4 md:px-6">
+                <div className="grid grid-cols-1 md:grid-cols-3">
                     {PILLARS.map((pillar, i) => (
                         <motion.div
                             key={pillar.index}
-                            className={`py-8 md:py-10 md:px-8 ${i > 0 ? "border-t md:border-t-0 md:border-l border-border" : ""} ${i === 0 ? "md:pl-0" : ""} ${i === 2 ? "md:pr-0" : ""}`}
+                            className={`py-10 md:py-12 md:px-8 ${i > 0 ? "border-t md:border-t-0 md:border-l border-border" : ""} ${i === 0 ? "md:pl-0" : ""} ${i === 2 ? "md:pr-0" : ""}`}
                             initial={{opacity: 0, y: 12}}
                             whileInView={{opacity: 1, y: 0}}
                             viewport={{once: true}}

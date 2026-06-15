@@ -2,7 +2,7 @@
 
 import {Navigation} from "@/components/ui/Navigations";
 import {DonateBanner} from "@/components/ui/DonateBanner";
-import {Hero} from "@/components/sections/Hero";
+import {Hero, HeroPillars} from "@/components/sections/Hero";
 import {TrustedBy} from "@/components/sections/TrustedBy";
 import {DeveloperExperiences} from "@/components/sections/DeveloperExperiences";
 import {Performances} from "@/components/sections/Performances";
@@ -22,6 +22,7 @@ export default function App() {
             <main>
                 <Hero/>
                 <TrustedBy/>
+                <HeroPillars/>
                 <Web3/>
                 <DeveloperExperiences/>
                 <Performances/>
