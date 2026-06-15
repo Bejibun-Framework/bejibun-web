@@ -1,7 +1,9 @@
 "use client";
 
+import {DonateBanner} from "@/components/ui/DonateBanner";
 import {Navigation} from "@/components/ui/Navigations";
-import {Hero} from "@/components/sections/Hero";
+import {Hero, HeroPillars} from "@/components/sections/Hero";
+// import {TrustedBy} from "@/components/sections/TrustedBy";
 import {DeveloperExperiences} from "@/components/sections/DeveloperExperiences";
 import {Performances} from "@/components/sections/Performances";
 import {Web3} from "@/components/sections/Web3";
@@ -13,9 +15,14 @@ import {Footer} from "@/components/sections/Footer";
 export default function App() {
     return (
         <div className="min-h-screen bg-background text-foreground overflow-x-clip">
-            <Navigation/>
+            <header className="fixed top-0 inset-x-0 z-50">
+                <DonateBanner/>
+                <Navigation/>
+            </header>
             <main>
                 <Hero/>
+                {/*<TrustedBy/>*/}
+                <HeroPillars/>
                 <Web3/>
                 <DeveloperExperiences/>
                 <Performances/>

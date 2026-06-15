@@ -38,7 +38,9 @@ const PILLARS = [
 
 function TerminalDemo() {
     return (
-        <div className="bg-code-bg border border-code-border rounded-xl overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.04),0_24px_48px_-24px_rgba(0,0,0,0.12)] text-left">
+        <div
+            className="bg-code-bg border border-code-border rounded-xl overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.04),0_24px_48px_-24px_rgba(0,0,0,0.12)] text-left"
+        >
             <div className="flex items-center justify-between px-4 py-2.5 border-b border-code-border">
                 <span className="font-mono text-[12px] text-code-muted">terminal</span>
                 <CopyButton text={INSTALL_COMMAND}/>
@@ -63,7 +65,7 @@ function TerminalDemo() {
 
 export function Hero() {
     return (
-        <section id="hero" className="relative pt-[140px] md:pt-[170px] border-b border-border">
+        <section id="hero" className="relative pt-[180px] md:pt-[210px] border-b border-border">
             <div className="max-w-[1150px] mx-auto px-4 md:px-6">
                 <motion.div
                     className="max-w-[820px] mx-auto text-center"
@@ -84,7 +86,8 @@ export function Hero() {
                     </h1>
 
                     <p className="text-[16px] md:text-[18px] leading-[1.6] text-muted-foreground max-w-[560px] mx-auto mb-10">
-                        A batteries-included TypeScript framework for building scalable APIs, Web3 platforms, and backend services with confidence.
+                        A batteries-included TypeScript framework for building scalable APIs, Web3 platforms, and
+                        backend services with confidence.
                     </p>
 
                     {/* CTAs */}
@@ -110,7 +113,8 @@ export function Hero() {
                     </div>
 
                     {/* Install one-liner */}
-                    <div className="inline-flex items-center gap-3 bg-surface border border-border rounded-lg pl-4 pr-3 py-2.5 mb-16">
+                    <div
+                        className="inline-flex items-center gap-3 bg-surface border border-border rounded-lg pl-4 pr-3 py-2.5 mb-16">
                         <code className="font-mono text-[13px] md:text-[14px] text-dim">
                             <span className="text-faint">$ </span>{INSTALL_COMMAND}
                         </code>
@@ -122,20 +126,27 @@ export function Hero() {
 
                 {/* Terminal demo */}
                 <motion.div
-                    className="max-w-[720px] mx-auto"
+                    className="max-w-[720px] mx-auto pb-[80px] md:pb-[120px]"
                     initial={{opacity: 0, y: 20}}
                     animate={{opacity: 1, y: 0}}
                     transition={{duration: 0.6, delay: 0.15}}
                 >
                     <TerminalDemo/>
                 </motion.div>
+            </div>
+        </section>
+    );
+}
 
-                {/* Pillars strip */}
-                <div className="grid grid-cols-1 md:grid-cols-3 mt-16 md:mt-20 border-t border-border">
+export function HeroPillars() {
+    return (
+        <section className="border-b border-border">
+            <div className="max-w-[1150px] mx-auto px-4 md:px-6">
+                <div className="grid grid-cols-1 md:grid-cols-3">
                     {PILLARS.map((pillar, i) => (
                         <motion.div
                             key={pillar.index}
-                            className={`py-8 md:py-10 md:px-8 ${i > 0 ? "border-t md:border-t-0 md:border-l border-border" : ""} ${i === 0 ? "md:pl-0" : ""} ${i === 2 ? "md:pr-0" : ""}`}
+                            className={`py-10 md:py-12 md:px-8 ${i > 0 ? "md:border-l" : ""} ${i === 0 ? "md:pl-0" : ""} ${i === 2 ? "md:pr-0" : ""}`}
                             initial={{opacity: 0, y: 12}}
                             whileInView={{opacity: 1, y: 0}}
                             viewport={{once: true}}
