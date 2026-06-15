@@ -6,16 +6,16 @@
     --font-size: 16px;
 
     /* Canvas & surfaces */
-    --background: #fafafa;
-    --surface: #ffffff;
-    --surface-dark: #f7f7f7;
-    --shade: #f0f0f0;
-    --shade-hover: #e3e3e3;
-    --elevated: #dedede;
+    --background: #FAFAFA;
+    --surface: #FFFFFF;
+    --surface-dark: #F7F7F7;
+    --shade: #F0F0F0;
+    --shade-hover: #E3E3E3;
+    --elevated: #DEDEDE;
 
     /* Borders */
-    --border: #e3e3e3;
-    --border-solid: #d9d9d9;
+    --border: #E3E3E3;
+    --border-solid: #D9D9D9;
 
     /* Text */
     --foreground: #040404;
@@ -24,18 +24,18 @@
     --faint: #909090;
 
     /* Accent — the single brand color */
-    --accent-brand: #ff6c02;
-    --accent-highlight: #ff8b35;
-    --accent-muted: #ffe9d9;
+    --accent-brand: #FF6C02;
+    --accent-highlight: #FF8B35;
+    --accent-muted: #FFE9D9;
 
     /* Semantic */
-    --error: #ff4949;
-    --success: #21bf9d;
-    --warning: #e0a714;
+    --error: #FF4949;
+    --success: #21BF9D;
+    --warning: #E0A714;
 
     /* Dark surfaces (code blocks / terminals) */
-    --code-bg: #0c0c0c;
-    --code-fg: #f3f3f3;
+    --code-bg: #0C0C0C;
+    --code-fg: #F3F3F3;
     --code-border: #252525;
     --code-muted: #999999;
 
@@ -43,14 +43,14 @@
     --card: var(--surface);
     --card-foreground: var(--foreground);
     --primary: var(--accent-brand);
-    --primary-foreground: #fafafa;
+    --primary-foreground: #FAFAFA;
     --secondary: var(--shade);
     --secondary-foreground: var(--dim);
     --muted: var(--shade);
     --accent: var(--shade);
     --accent-foreground: var(--foreground);
     --destructive: var(--error);
-    --destructive-foreground: #ffffff;
+    --destructive-foreground: #FFFFFF;
     --input: var(--border-solid);
     --ring: var(--accent-brand);
 
@@ -69,17 +69,17 @@
 
 .dark {
     --background: #040404;
-    --surface: #0c0c0c;
+    --surface: #0C0C0C;
     --surface-dark: #121212;
     --shade: #161616;
-    --shade-hover: #1b1b1b;
+    --shade-hover: #1B1B1B;
     --elevated: #303030;
 
-    --border: #1c1c1c;
+    --border: #1C1C1C;
     --border-solid: #252525;
 
-    --foreground: #f3f3f3;
-    --dim: #dedede;
+    --foreground: #F3F3F3;
+    --dim: #DEDEDE;
     --muted-foreground: #909090;
     --faint: #646464;
 
@@ -122,7 +122,7 @@ html {
     --color-code-muted: var(--code-muted);
     /* "night" — theme-invariant dark canvas for premium feature sections */
     --color-night: #040404;
-    --color-night-border: #1c1c1c;
+    --color-night-border: #1C1C1C;
 
     /* shadcn-compat */
     --color-card: var(--card);

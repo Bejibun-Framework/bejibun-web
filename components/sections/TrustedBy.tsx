@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import type {CSSProperties} from "react";
+import Image from "next/image";
 
 type Company = {
     name: string;
@@ -13,17 +13,19 @@ type Company = {
 const companies: Company[] = [
     {
         name: "Jeje Harapan Transindo",
-        logo: "/company-jeje.png",
-        href: "https://www.jejeharapan.com/",
+        logo: "/companies/jeje-harapan-transindo.png",
+        href: "https://www.jejeharapan.com"
     },
     {
         name: "Sakar Jenius Logistik",
-        logo: "/sakar.png",
-        href: "#",
-    },
+        logo: "/companies/sakar-jenius-logistik.png",
+        href: "https://www.sakarjenius.com"
+    }
 ];
 
-function CompanyLogo({company}: {company: Company}) {
+function CompanyLogo({company}: {
+    company: Company
+}) {
     return (
         <a
             href={company.href}
@@ -31,18 +33,14 @@ function CompanyLogo({company}: {company: Company}) {
             rel="noreferrer"
             aria-label={`${company.name} — visit website`}
             title={company.name}
-            className="group flex shrink-0 items-center justify-center
-                px-8 md:px-12 h-[120px] md:h-[150px]
-                border-r border-border"
+            className="group flex shrink-0 items-center justify-center px-10 h-[120px] border-r border-border"
         >
             <Image
                 src={company.logo}
                 alt={company.name}
                 width={320}
                 height={120}
-                className={`h-16 md:h-20 w-auto object-contain
-                    opacity-90 transition-all duration-300 group-hover:opacity-100 group-hover:scale-105
-                    ${company.invert ? "invert" : ""}`}
+                className={`h-20 w-auto object-contain opacity-90 transition-all duration-300 group-hover:opacity-100 group-hover:scale-105 ${company.invert ? "invert" : ""}`}
             />
         </a>
     );
@@ -50,15 +48,14 @@ function CompanyLogo({company}: {company: Company}) {
 
 export function TrustedBy() {
     // Repeat to fill the row, then duplicate that set so the marquee (-50%) loops seamlessly.
-    const base = Array.from({length: Math.max(6, companies.length)}, (_, i) => companies[i % companies.length]);
+    const base = Array.from({length: Math.max(6, companies.length)}, (_, i: number) => companies[i % companies.length]);
     const track = [...base, ...base];
 
     return (
         <section className="border-y border-border">
             <div className="relative flex">
                 {/* Label cell */}
-                <div className="hidden md:flex shrink-0 w-[260px] lg:w-[300px] items-center
-                    px-8 lg:px-10 h-[150px] border-r border-border">
+                <div className="hidden md:flex shrink-0 w-[260px] lg:w-[300px] items-center px-12 border-r border-border">
                     <p className="font-mono text-[12px] uppercase tracking-[0.14em] leading-[1.7] text-faint">
                         Powering teams that
                         <br/>
@@ -68,9 +65,11 @@ export function TrustedBy() {
 
                 {/* Logos marquee */}
                 <div
-                    className="marquee-pause relative flex-1 overflow-hidden
+                    className="
+                        marquee-pause relative flex-1 overflow-hidden
                         [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]
-                        [-webkit-mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
+                        [-webkit-mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]
+                    "
                 >
                     <div
                         className="animate-marquee flex w-max"
