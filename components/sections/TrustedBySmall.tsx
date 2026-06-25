@@ -72,19 +72,25 @@ export function TrustedBySmall() {
     return (
         <section className="border-b border-border">
             <div className="max-w-6xl mx-auto px-6 md:px-12 py-16 md:py-20">
-
                 {/* Header */}
-                <div className="text-center mb-12">
-                    <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-brand mb-3">
-                        Trusted by
-                    </p>
-                    <h2 className="text-2xl md:text-3xl text-foreground mb-2">
-                        Built for teams that move fast
-                    </h2>
-                    <p className="text-[13.5px] text-muted-foreground">
-                        From startups to scale-ups, teams use bejibun to ship products with confidence
-                    </p>
-                </div>
+                <motion.div
+                    initial={{opacity: 0, y: 16}}
+                    whileInView={{opacity: 1, y: 0}}
+                    viewport={{once: true}}
+                    transition={{duration: 0.5, delay: 0.1}}
+                >
+                    <div className="text-center mb-12">
+                        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-brand mb-3">
+                            Trusted by
+                        </p>
+                        <h2 className="text-2xl md:text-3xl text-foreground mb-2">
+                            Built for teams that move fast
+                        </h2>
+                        <p className="text-[13.5px] text-muted-foreground">
+                            From startups to scale-ups, teams use bejibun to ship products with confidence
+                        </p>
+                    </div>
+                </motion.div>
 
                 {/* Cards — centered, wraps naturally as clients grow */}
                 <motion.div
