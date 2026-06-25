@@ -10,16 +10,11 @@ type Company = {
     invert?: boolean; // for dark logos that need inverting on the dark background
 };
 
-const companies: Company[] = [
+const companies: Array<Company> = [
     {
         name: "Jeje Harapan Transindo",
         logo: "/companies/jeje-harapan-transindo.png",
         href: "https://www.jejeharapan.com"
-    },
-    {
-        name: "Sakar Jenius Logistik",
-        logo: "/companies/sakar-jenius-logistik.png",
-        href: "https://www.sakarjenius.com"
     }
 ];
 
@@ -48,7 +43,7 @@ function CompanyLogo({company}: {
 
 export function TrustedBy() {
     // Repeat to fill the row, then duplicate that set so the marquee (-50%) loops seamlessly.
-    const base = Array.from({length: Math.max(6, companies.length)}, (_, i: number) => companies[i % companies.length]);
+    const base = Array.from({length: Math.max(15, companies.length)}, (_, i: number) => companies[i % companies.length]);
     const track = [...base, ...base];
 
     return (
