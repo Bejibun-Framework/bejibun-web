@@ -21,15 +21,6 @@ const companies: Array<Company> = [
     }
 ];
 
-const cardVariants = {
-    hidden: {opacity: 0, y: 16},
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: {duration: 0.5, ease: [0.19, 1, 0.22, 1]}
-    }
-};
-
 function CompanyCard({company}: { company: Company }) {
     return (
         <motion.a
