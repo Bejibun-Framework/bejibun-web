@@ -15,10 +15,12 @@ const LINK_GROUPS = [
     {
         title: "Ecosystem",
         links: [
-            {label: "@bejibun/x402", href: "https://github.com/Bejibun-Framework/bejibun-x402"},
-            {label: "@bejibun/redis", href: "https://github.com/Bejibun-Framework/bejibun-redis"},
             {label: "@bejibun/cache", href: "https://github.com/Bejibun-Framework/bejibun-cache"},
-            {label: "@bejibun/cors", href: "https://github.com/Bejibun-Framework/bejibun-cors"}
+            {label: "@bejibun/cors", href: "https://github.com/Bejibun-Framework/bejibun-cors"},
+            {label: "@bejibun/limiter", href: "https://github.com/Bejibun-Framework/bejibun-limiter"},
+            {label: "@bejibun/redis", href: "https://github.com/Bejibun-Framework/bejibun-redis"},
+            {label: "@bejibun/storage", href: "https://github.com/Bejibun-Framework/bejibun-storage"},
+            {label: "@bejibun/x402", href: "https://github.com/Bejibun-Framework/bejibun-x402"}
         ]
     },
     {
@@ -26,7 +28,8 @@ const LINK_GROUPS = [
         links: [
             {label: "X / Twitter", href: "https://x.com/bjbnframework"},
             {label: "Telegram", href: "https://t.me/BejibunPortal"},
-            {label: "$BJBN on CoinGecko", href: "https://www.coingecko.com/en/coins/bejibun"}
+            {label: "$BJBN on CoinGecko", href: "https://www.coingecko.com/en/coins/bejibun"},
+            {label: "Pump.fun", href: "https://pump.fun/coin/CQhbNnCGKfDaKXt8uE61i5DrBYJV7NPsCDD9vQgypump"}
         ]
     }
 ];

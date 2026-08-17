@@ -15,21 +15,49 @@ const NAV_LINKS = [
 ];
 
 export function Navigation() {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState<boolean>(false);
+    const [version, setVersion] = React.useState<string>("x.x.x");
+
+    React.useEffect(() => {
+        const fetchVersion = async () => {
+            try {
+                const response = await fetch("https://registry.npmjs.org/@bejibun/core/latest");
+
+                if (!response.ok) throw new Error("Failed to fetch package version");
+
+                const data = await response.json();
+
+                if (data.version) setVersion(data.version);
+            } catch (error) {
+                console.error("Failed to fetch @bejibun/core version:", error);
+            }
+        };
+
+        fetchVersion().then();
+    }, []);
 
     return (
         <nav className="bg-background/90 backdrop-blur-sm border-b border-border">
             <div className="max-w-[1150px] mx-auto px-4 md:px-6">
                 <div className="flex items-center justify-between h-[64px]">
                     <a href="#hero" className="flex items-center gap-2.5">
-                        <Image src="/logo.png" alt={process.env.NEXT_PUBLIC_NAME as string} width={28} height={28} className="rounded-md" priority/>
+                        <Image
+                            src="/logo.png"
+                            alt={process.env.NEXT_PUBLIC_NAME as string}
+                            width={28}
+                            height={28}
+                            className="rounded-md"
+                            priority
+                        />
+
                         <span className="text-[16px] font-medium tracking-[-0.02em]">
                             {process.env.NEXT_PUBLIC_NAME}
                         </span>
+
                         <span
                             className="hidden sm:inline font-mono text-[11px] text-faint border border-border rounded-full px-2 py-0.5"
                         >
-                            v0.4
+                            v{version}
                         </span>
                     </a>
 
@@ -47,6 +75,7 @@ export function Navigation() {
 
                     <div className="hidden md:flex items-center gap-3">
                         <ThemeToggle/>
+
                         <a
                             href="https://github.com/Bejibun-Framework/bejibun"
                             target="_blank"
@@ -56,6 +85,7 @@ export function Navigation() {
                         >
                             <Github className="size-[18px]"/>
                         </a>
+
                         <a
                             href="https://docs.bejibun.com"
                             target="_blank"
@@ -68,6 +98,7 @@ export function Navigation() {
 
                     <div className="md:hidden flex items-center gap-1">
                         <ThemeToggle/>
+
                         <button
                             type="button"
                             onClick={() => setOpen((v) => !v)}
@@ -75,7 +106,11 @@ export function Navigation() {
                             aria-label={open ? "Close menu" : "Open menu"}
                             aria-expanded={open}
                         >
-                            {open ? <X className="size-5"/> : <Menu className="size-5"/>}
+                            {open ? (
+                                <X className="size-5"/>
+                            ) : (
+                                <Menu className="size-5"/>
+                            )}
                         </button>
                     </div>
                 </div>
@@ -92,6 +127,7 @@ export function Navigation() {
                                 {link.label}
                             </a>
                         ))}
+
                         <div className="flex items-center gap-4 pt-2">
                             <a
                                 href="https://github.com/Bejibun-Framework/bejibun"
@@ -101,6 +137,7 @@ export function Navigation() {
                             >
                                 GitHub
                             </a>
+
                             <a
                                 href="https://docs.bejibun.com"
                                 target="_blank"

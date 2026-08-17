@@ -41,27 +41,26 @@ const QUARTERS: Array<{
     },
     {
         title: "Q2 2026",
-        status: "partial",
+        status: "done",
         summary: "Scalability, scheduling & storage expansion.",
         items: [
             {label: "Scheduler / cron", done: true},
             {label: "Route list (Swagger)", done: true},
             {label: "WebSocket", done: true},
             {label: "Unit test", done: true},
-            {label: "Website Phase 2", done: true},
-            {label: "HTTP client"},
-            {label: "Database transaction"},
-            {label: "Cache: Memcached"},
-            {label: "Storage: Disk management"},
-            {label: "Storage: Archive"},
-            {label: "Storage: Cross disks"}
+            {label: "Website Phase 2", done: true}
         ]
     },
     {
         title: "Q3 2026",
-        status: "planned",
+        status: "partial",
         summary: "Testing, real-time features & database expansion.",
         items: [
+            {label: "@bejibun/storage", done: true, href: "https://github.com/Bejibun-Framework/bejibun-storage"},
+            {label: "@bejibun/limiter", done: true, href: "https://github.com/Bejibun-Framework/bejibun-limiter"},
+            {label: "HTTP client"},
+            {label: "Database transaction"},
+            {label: "Cache: Memcached"},
             {label: "MySQL support"},
             {label: "MongoDB support"},
             {label: "Model relations"},
